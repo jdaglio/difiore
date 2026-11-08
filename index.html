@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Di Fiore · Cartera modelo</title>
+<meta name="description" content="Composición, rendimiento y decisiones de mi cartera, cada dos semanas y contra el S&amp;P 500. Un registro para poner mi criterio a prueba.">
+<meta name="author" content="Juan Andrea Daglio di Fiore">
+<meta property="og:title" content="Di Fiore · Cartera modelo">
+<meta property="og:description" content="Composición, rendimiento y decisiones de mi cartera, cada dos semanas y contra el S&amp;P 500. Un registro para poner mi criterio a prueba.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='3' fill='%230C2C23'/%3E%3Crect x='2.5' y='2.5' width='27' height='27' fill='none' stroke='%23D9B26A' stroke-width='.7'/%3E%3Ctext x='16' y='22' font-family='Bodoni MT,Didot,Georgia,serif' font-size='17' font-style='italic' text-anchor='middle' fill='%23FBF7EE'%3EDF%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400..600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --fondo:#F4EDE0;--superficie:#FBF7EE;--tinta:#14201B;--suave:#4A564F;--tenue:#5E6862;--linea:#DDD3C0;--linea-fuerte:#C7BBA4;
+  --verde:#123F31;--verde-hondo:#0C2C23;--verde-lavado:#E6E7D8;--laton:#7A5A1E;--laton-claro:#D9B26A;
+  --serie-cartera:#123F31;--serie-indice:#9A6A12;
+  --serif:"Bodoni Moda","Bodoni MT",Didot,Georgia,serif;--sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  --ancho:1080px;--medida:62ch;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:96px;-webkit-text-size-adjust:100%}
+body{margin:0;background-color:var(--fondo);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .25 0 0 0 0 .2 0 0 0 0 .1 0 0 0 .055 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");color:var(--tinta);font:400 16px/1.65 var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:inherit}
+.envase{max-width:var(--ancho);margin:0 auto;padding:0 28px}
+h1,h2,h3{font-family:var(--serif);font-optical-sizing:auto;font-weight:500;letter-spacing:-.008em;margin:0;color:var(--tinta)}
+p{margin:0 0 1em;max-width:var(--medida)}
+p:last-child{margin-bottom:0}
+.oculto{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.saltar{position:absolute;left:-999px;top:8px;background:var(--verde);color:#fff;padding:8px 14px;border-radius:3px;z-index:30}
+.saltar:focus{left:12px}
+:focus-visible{outline:2px solid var(--verde);outline-offset:3px;border-radius:3px}
+
+/* Animaciones: solo si el visitante no pidió reducir movimiento */
+@keyframes subir{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes velo{from{clip-path:inset(-10% 100% -20% -6%)}to{clip-path:inset(-10% -6% -20% -6%)}}
+@keyframes girar{to{transform:rotate(360deg)}}
+@keyframes sello{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+.portada h1{animation:velo 1.1s cubic-bezier(.2,.7,.1,1) both}
+.portada .sobrelinea{animation:subir .6s ease both}
+.bajada{animation:subir .7s .25s ease both}
+.firma,.acciones{animation:subir .7s .4s ease both}
+@keyframes latido{0%{transform:scale(1);opacity:.45}100%{transform:scale(3.2);opacity:0}}
+.latido{transform-box:fill-box;transform-origin:center;animation:latido 2.2s ease-out infinite}
+.tablero-graf.solo{grid-template-columns:minmax(0,1fr)}
+.recta{font:400 clamp(19px,2.4vw,24px)/1.3 var(--serif);max-width:none;margin:2px 0 18px}
+[hidden]{display:none!important}
+.js .revela{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.1,1);transition-delay:var(--espera,0ms)}
+.js .revela.visto{opacity:1;transform:none}
+.progreso{position:absolute;left:0;bottom:-1px;height:2px;width:100%;background:var(--laton-claro);transform:scaleX(0);transform-origin:0 50%}
+.cinta{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.banda .envase{position:relative;z-index:1}
+.dona circle{transition:stroke-dasharray .7s cubic-bezier(.3,.7,.2,1),stroke-dashoffset .7s cubic-bezier(.3,.7,.2,1)}
+.barras .pista{transition:width .7s cubic-bezier(.3,.7,.2,1)}
+.js .sin-ver .barras .pista,.js .sin-ver .dona circle{stroke-dasharray:0 1000!important}
+.js .sin-ver .barras .pista{width:0!important}
+.reloj{display:inline-flex;align-items:center;gap:7px}
+.reloj svg{width:11px;height:11px;fill:currentColor}
+.menu a.activo{color:var(--laton-claro);border-color:var(--laton-claro)}
+.edicion,.carta,.lamina,.ficha,.cifra{transition:border-color .2s,box-shadow .25s,transform .25s}
+
+
+/* Tira, selectores, mapa y aportes */
+@keyframes tira{to{transform:translateX(-50%)}}
+.tira{overflow:hidden;background:var(--verde-hondo);color:#DCE6DC;border-top:1px solid rgba(217,178,106,.34);font:400 12px/1 var(--mono);white-space:nowrap}
+.tira-pista{display:inline-flex;gap:34px;padding:8px 17px;animation:tira 70s linear infinite;font-variant-numeric:tabular-nums}
+.tira:hover .tira-pista{animation-play-state:paused}
+.tira b{font-weight:500;color:var(--superficie)}
+.tira i{font-style:normal;font-size:10px}
+.tira i.pos{color:#7FCBA9}
+.tira i.neg{color:#EDA08A}
+.selector{display:inline-flex;gap:2px;padding:2px;border:1px solid var(--linea-fuerte);border-radius:3px}
+.selector button{font:500 13px/1 var(--sans);min-height:34px;padding:0 12px;border:0;border-radius:2px;background:transparent;color:var(--suave);cursor:pointer;transition:background .2s,color .2s}
+.selector button[aria-pressed="true"]{background:var(--verde);color:var(--superficie)}
+.graf-cab,.mapa-cab{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.graf-cab .leyenda,.mapa-cab .subt{margin:0}
+.bloque-mapa{margin-bottom:26px}
+.mapa{position:relative;width:100%;height:clamp(330px,46vw,500px);border-radius:3px;overflow:hidden;background:var(--linea)}
+.baldosa{position:absolute;border:0;margin:0;padding:8px 9px;text-align:left;vertical-align:top;display:block;cursor:pointer;overflow:hidden;font:500 13px/1.25 var(--sans);box-shadow:inset 0 0 0 1px var(--fondo);transition:left .7s cubic-bezier(.3,.7,.2,1),top .7s cubic-bezier(.3,.7,.2,1),width .7s cubic-bezier(.3,.7,.2,1),height .7s cubic-bezier(.3,.7,.2,1),background-color .5s,opacity .5s var(--d,0ms),transform .5s var(--d,0ms),filter .15s}
+.baldosa:hover{filter:brightness(1.07);z-index:2}
+.baldosa[aria-pressed="true"]{box-shadow:inset 0 0 0 3px var(--tinta);z-index:1}
+.baldosa b{display:block;position:absolute;left:9px;top:8px;font:600 clamp(14px,1.5vw,18px)/1.1 var(--sans);letter-spacing:-.01em}
+.baldosa b.mini{left:4px;top:3px;font-size:10.5px}
+.baldosa span{font-weight:600;display:block;position:absolute;left:9px;top:clamp(27px,3vw,33px);font:500 12px/1.2 var(--sans);font-variant-numeric:tabular-nums;white-space:nowrap}
+.js .mapa.sin-ver .baldosa{opacity:0;transform:scale(.93)}
+.mapa-ley{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;margin-top:10px;font-size:12.5px;color:var(--suave)}
+.ley-grad{display:inline-block;width:140px;height:8px;border-radius:2px;background:linear-gradient(90deg,#D9846C,#D3CCBB,#62B793)}
+.ley-nota{margin-left:auto}
+.ley-clase i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.ficha-pos{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(3,minmax(0,1fr));gap:14px;align-items:end;margin-top:12px;background:var(--superficie);border:1px solid var(--linea);border-radius:3px;padding:15px 18px}
+.ficha-pos h4{font:500 24px/1.2 var(--serif);margin:2px 0 0}
+.ficha-pos small{display:block}
+.ficha-pos strong{font:600 23px/1.2 var(--sans);font-variant-numeric:tabular-nums;letter-spacing:-.015em}
+.orden{font:500 13px/1 var(--sans);color:var(--suave);background:none;border:0;min-height:32px;padding:0 4px;cursor:pointer}
+th[aria-sort="none"] .orden::after{content:" ↕";opacity:.5}
+.selector button:not([aria-pressed="true"]):hover,.pastillas button:not([aria-pressed="true"]):hover{background:var(--verde-lavado);color:var(--tinta)}
+.barra :focus-visible,.portada :focus-visible,.carta :focus-visible,.saltar:focus-visible{outline-color:var(--laton-claro)}
+.baldosa:focus-visible{outline:3px solid var(--tinta);outline-offset:-3px;box-shadow:inset 0 0 0 5px var(--superficie);z-index:3}
+th[aria-sort="ascending"] .orden::after{content:" ▲"}
+th[aria-sort="descending"] .orden::after{content:" ▼"}
+.tic{font-size:12px;color:var(--tenue)}
+.tabla-ancha{overflow-x:auto;padding-bottom:12px}
+.tabla-ancha table{min-width:640px}
+.aportes{list-style:none;margin:0;padding:0;font-size:14px}
+.aportes li{display:grid;grid-template-columns:minmax(96px,170px) minmax(0,1fr) 72px;gap:12px;align-items:center;padding:6px 0}
+.aportes b{font:600 14px/1 var(--sans);font-variant-numeric:tabular-nums;text-align:right}
+.aportes{max-width:760px}
+.ap-resto{border-top:1px solid var(--linea);margin-top:4px}
+.ap-total span,.ap-total b{font-weight:600}
+.ap-pista{position:relative;display:block;height:12px}
+.ap-pista::before{content:"";position:absolute;left:50%;top:-6px;bottom:-6px;width:1px;background:var(--linea-fuerte)}
+.ap-pista i{position:absolute;top:1px;height:10px}
+.ap-pista i.pos{left:50%;background:#2E8B66;border-radius:0 3px 3px 0}
+.ap-pista i.neg{right:50%;background:#C2543C;border-radius:3px 0 0 3px}
+
+.privado{margin:0;max-width:none;background:#071D17;color:var(--laton-claro);text-align:center;font:500 10.5px/1.2 var(--mono);text-transform:uppercase;padding:6px 12px;letter-spacing:.18em}
+
+/* Fichas de tesis */
+.fichas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.tesis-f{background:var(--superficie);border:1px solid var(--linea);border-radius:3px;padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.tesis-f header{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.tesis-f h4{font:600 16px/1.25 var(--sans);margin:0}
+.tesis-f h4 small{font:500 12px/1 var(--mono);color:var(--tenue);margin-left:6px}
+.tesis-f .peso{font:600 14px/1 var(--sans);font-variant-numeric:tabular-nums}
+.postura{align-self:flex-start;font:500 12px/1 var(--sans);color:var(--verde);background:var(--verde-lavado);padding:5px 8px;border-radius:2px}
+.tesis-f p{margin:0;font-size:14.5px;line-height:1.5;max-width:none}
+.tesis-f .inv{color:var(--suave);font-size:13.5px}
+.tesis-f .val{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:13px;color:var(--suave);font-variant-numeric:tabular-nums;padding-top:8px;margin-top:auto;border-top:1px solid var(--linea)}
+.tesis-f .val b{font-weight:600;color:var(--tinta)}
+.tesis-f .alerta{font-size:13px;padding:6px 9px;border-left:3px solid #C2543C;background:#F6E7DD;color:var(--tinta)}
+.ficha-tesis{grid-column:1/-1;border-top:1px solid var(--linea);padding-top:12px;display:grid;gap:6px;font-size:15px}
+.ficha-tesis p{margin:0;max-width:none}
+.ficha-tesis .alerta{font-size:13.5px}
+
+/* Cómo decido */
+.recorrido{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:56px;align-items:start}
+.visor{position:sticky;top:104px;height:min(540px,calc(100vh - 136px));min-height:430px;overflow:hidden;color:var(--superficie);border:1px solid rgba(217,178,106,.42);background:radial-gradient(120% 100% at 75% 20%,#1A5340 0%,var(--verde) 46%,var(--verde-hondo) 100%)}
+.vista{position:absolute;inset:0;display:flex;flex-direction:column;padding:28px 30px;opacity:0;transform:translateY(12px);transition:opacity .45s ease,transform .45s ease}
+.vista.activa{opacity:1;transform:none}
+.v-et{font:500 11px/1.4 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--laton-claro);margin:0;max-width:none}
+.v-grande{font:400 clamp(60px,6.8vw,88px)/1.05 var(--serif);font-optical-sizing:auto;letter-spacing:-.02em;color:var(--superficie);margin:8px 0 2px;max-width:none}
+.v-nota{font:400 14.5px/1.4 var(--sans);color:#DCE6DC;margin:0 0 18px;max-width:none}
+.v-filas{margin-top:auto;display:grid;gap:11px}
+.v-fila{display:grid;grid-template-columns:minmax(110px,150px) minmax(0,1fr) 62px;gap:10px;align-items:center;font:400 13.5px/1.25 var(--sans);color:#EFE8D8}
+.v-fila b{font:500 13px/1 var(--mono);text-align:right;color:var(--superficie)}
+.v-pista{display:block;height:9px;background:rgba(255,255,255,.1)}
+.v-pista i{display:block;height:100%;background:#7FA890;transform-origin:0 50%;transform:scaleX(0);transition:transform .8s cubic-bezier(.3,.7,.2,1) .1s}
+.v-pista i.dest{background:var(--laton-claro)}
+.vista.activa .v-pista i{transform:none}
+.v-cuenta{display:flex;justify-content:space-between;gap:12px;padding-top:12px;margin-top:14px;border-top:1px solid rgba(217,178,106,.3);font:400 13px/1.3 var(--sans);color:#DCE6DC}
+.v-cuenta b{font:500 15px/1.2 var(--mono);color:var(--superficie)}
+.v-cond{display:grid;grid-template-columns:24px minmax(0,1fr);gap:10px;font:400 13.5px/1.35 var(--sans);color:#EFE8D8;padding:8px 0;border-top:1px solid rgba(217,178,106,.22)}
+.v-cond small{display:block;color:#B9C9BC;font-size:12.5px}
+.v-est{width:22px;height:22px;display:grid;place-items:center;border:1px solid var(--laton-claro);font:500 13px/1 var(--mono);color:var(--laton-claro)}
+.v-est.ok{background:var(--laton-claro);color:var(--verde-hondo)}
+.vista svg{display:block;width:100%;height:auto;margin-top:auto;overflow:visible}
+.vista svg text{font-family:var(--mono)}
+.pasos{list-style:none;margin:0;padding:0}
+.paso{min-height:64vh;display:flex;flex-direction:column;justify-content:center;padding:24px 0;transition:opacity .35s}
+.paso:first-child{min-height:50vh;justify-content:flex-start;padding-top:8px}
+.paso:last-child{min-height:50vh}
+.con-pasos .paso{opacity:.3}
+.con-pasos .paso.activo{opacity:1}
+.paso-et{font:italic 400 19px/1.2 var(--serif);color:var(--laton);margin:0 0 8px}
+.paso h3{font-size:clamp(28px,3vw,36px);line-height:1.12;font-weight:400;margin-bottom:12px;font-optical-sizing:none;font-variation-settings:"opsz" 24}
+.paso p.txt{color:var(--suave);font-size:17px;line-height:1.6}
+.paso-visual{display:none}
+.invalida{margin-top:32px;padding:20px 24px;border-left:3px solid var(--laton-claro);background:var(--verde-lavado)}
+.invalida h3{font-size:22px;margin-bottom:8px}
+.invalida ul{margin:0;padding-left:18px;columns:2;column-gap:40px;font-size:15px}
+.invalida li{margin-bottom:6px;break-inside:avoid}
+.otras{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.otra{background:var(--superficie);border:1px solid var(--linea);border-top:3px solid var(--verde);border-radius:0 0 3px 3px;padding:18px 20px}
+.otra h4{font:600 17px/1.2 var(--sans);margin:0 0 8px}
+.otra p{font-size:14.5px;line-height:1.5;color:var(--suave);margin:0 0 10px}
+.otra p.despues{color:var(--tinta);margin:0;padding-top:10px;border-top:1px solid var(--linea)}
+
+/* Barra */
+.barra{position:sticky;top:0;z-index:20;background:var(--verde-hondo);border-bottom:1px solid rgba(217,178,106,.3)}
+.barra .envase{display:flex;align-items:center;gap:28px;height:64px}
+.marca{font:italic 500 27px/1 var(--serif);color:var(--superficie);text-decoration:none;letter-spacing:-.015em;white-space:nowrap}
+.menu{display:flex;gap:26px;margin-left:auto;font:500 14px/1 var(--sans)}
+.menu a{color:#CFD9CE;text-decoration:none;padding:6px 0;border-bottom:1px solid transparent;transition:color .15s,border-color .15s}
+.menu a:hover{color:var(--superficie);border-color:rgba(217,178,106,.5)}
+.boton{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 18px;border-radius:3px;font:500 14px/1 var(--sans);text-decoration:none;transition:background .15s,color .15s,border-color .15s}
+.boton.lleno{background:var(--verde);color:var(--superficie);border:1px solid var(--verde)}
+.boton.lleno:hover{background:var(--verde-hondo)}
+.barra .boton.lleno,.portada .boton.lleno{background:var(--laton-claro);border-color:var(--laton-claro);color:var(--verde-hondo)}
+.barra .boton.lleno:hover,.portada .boton.lleno:hover{background:#E8C785;border-color:#E8C785}
+.portada .boton.linea{border-color:rgba(251,247,238,.42);color:var(--superficie)}
+.portada .boton.linea:hover{border-color:var(--laton-claro);color:var(--laton-claro)}
+.boton.linea{border:1px solid var(--linea-fuerte);color:var(--tinta)}
+.boton.linea:hover{border-color:var(--verde);color:var(--verde)}
+
+/* Portada */
+.portada{position:relative;overflow:hidden;color:var(--superficie);padding:70px 0 64px;background:radial-gradient(115% 95% at 80% 34%,#1A5340 0%,var(--verde) 44%,var(--verde-hondo) 100%)}
+.marco{position:absolute;inset:14px;border:1px solid rgba(217,178,106,.44);pointer-events:none;z-index:1}
+.portada-rejilla{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.22fr) minmax(320px,1fr);gap:52px;align-items:center}
+.sello-caja{animation:subir .8s .3s ease both}
+.sello{position:relative;width:min(100%,396px);aspect-ratio:1;margin:0 auto;animation:sello 1.1s .15s cubic-bezier(.2,.7,.1,1) both}
+.sello canvas{position:absolute;inset:0;width:100%;height:100%}
+#roseta-a{animation:girar 240s linear infinite}
+#roseta-b{animation:girar 170s linear infinite reverse}
+.sello-centro{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.sello-centro small{font:500 10.5px/1.3 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--laton-claro)}
+.sello-centro strong{font:400 clamp(62px,8vw,92px)/1 var(--serif);font-optical-sizing:auto;color:var(--superficie);letter-spacing:-.02em;font-variant-numeric:lining-nums;margin:7px 0 6px}
+.sello-centro span{font:500 14px/1.3 var(--mono);color:#EFE8D8}
+.sello-datos{width:min(100%,396px);margin:12px auto 0}
+.nota-sello{font:400 11px/1.4 var(--mono);color:#B9C9BC;text-align:center;margin:10px auto 0;max-width:none}
+.sobrelinea{font:500 11.5px/1.4 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--laton);margin:0 0 14px}
+.portada .sobrelinea{color:var(--laton-claro);margin-bottom:6px}
+main{counter-reset:sec}
+.cabeza .sobrelinea::before{counter-increment:sec;content:counter(sec,upper-roman) "\2003";font-family:var(--serif);font-style:italic;font-size:16px;letter-spacing:0;text-transform:none}
+.portada h1{font-size:clamp(92px,13.2vw,172px);line-height:.94;font-style:italic;font-weight:400;color:var(--superficie);letter-spacing:-.035em;margin-left:-.035em}
+.bajada{font:400 19px/1.5 var(--sans);color:#EFE8D8;margin:26px 0 10px;max-width:29em}
+.firma{font:500 14px/1.4 var(--sans);color:#B9C9BC;margin:0 0 26px}
+.acciones{display:flex;flex-wrap:wrap;gap:10px}
+.renglon{display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-top:1px solid rgba(217,178,106,.26);font:400 12.5px/1.3 var(--mono)}
+.renglon span:first-child{color:#B9C9BC}
+.renglon span:last-child{font-weight:500;color:var(--superficie)}
+
+/* Secciones */
+.seccion{padding:80px 0;border-top:3px double var(--linea-fuerte)}
+.cabeza{margin-bottom:34px;max-width:680px}
+.cabeza h2{font-size:clamp(36px,4.7vw,54px);line-height:1.06;font-weight:400;letter-spacing:-.018em;font-optical-sizing:none;font-variation-settings:"opsz" 30}
+.cabeza p{color:var(--suave);margin-top:12px}
+.dos{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px}
+.ficha{background:var(--superficie);border:1px solid var(--linea);border-radius:3px;padding:24px 26px}
+.ficha h3{font-size:22px;margin-bottom:12px}
+dl.datos{margin:0;display:grid;grid-template-columns:auto 1fr;font-size:15px}
+dl.datos dt,dl.datos dd{margin:0;padding:10px 0;border-bottom:1px solid var(--linea)}
+dl.datos dt{color:var(--suave);padding-right:24px}
+dl.datos dd{text-align:right;font-weight:500}
+dl.datos dt:last-of-type,dl.datos dd:last-of-type{border-bottom:0}
+.banda{position:relative;overflow:hidden;background:var(--verde-hondo);padding:58px 0 54px;border-top:1px solid rgba(217,178,106,.34);border-bottom:1px solid rgba(217,178,106,.34)}
+.reglas{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+.reglas li{padding:20px 26px 4px 0}
+.reglas li+li{border-left:1px solid rgba(255,255,255,.17);padding-left:26px}
+.reglas .num{font:italic 400 46px/1 var(--serif);color:var(--laton-claro);display:block;margin-bottom:12px;transition:transform .25s}
+.reglas li:hover .num{transform:translateX(4px)}
+.reglas h3{font-size:24px;line-height:1.2;margin-bottom:8px;color:var(--superficie)}
+.reglas p{font-size:15px;color:#DCE6DC}
+
+/* Gráfico */
+.tablero-graf{display:grid;grid-template-columns:minmax(0,2.5fr) minmax(220px,1fr);gap:18px;align-items:stretch}
+.lamina{background:var(--superficie);border:1px solid var(--linea);border-radius:3px;padding:20px 22px}
+.leyenda{display:flex;flex-wrap:wrap;gap:18px;font-size:13px;color:var(--suave);margin:0 0 10px}
+.leyenda i{display:inline-block;width:16px;height:2px;border-radius:2px;margin-right:7px;vertical-align:middle}
+.grafico{position:relative;width:100%}
+.grafico svg{display:block;width:100%;height:auto;overflow:visible}
+.globo{position:absolute;pointer-events:none;background:var(--tinta);color:var(--superficie);font-size:12.5px;line-height:1.5;border-radius:3px;padding:7px 10px;white-space:nowrap;opacity:0;transform:translate(-50%,-100%);transition:opacity .1s;font-variant-numeric:tabular-nums}
+.globo b{display:block;font-weight:500}
+.cifras{display:grid;gap:12px}
+.cifra{background:var(--superficie);border:1px solid var(--linea);border-radius:3px;padding:16px 18px;display:flex;flex-direction:column;justify-content:center}
+.cifra small,.tiras small,.ficha-pos small{font:500 13px/1.4 var(--sans);color:var(--suave)}
+.cifra strong{font:600 26px/1.2 var(--sans);font-variant-numeric:tabular-nums;letter-spacing:-.015em}
+.aviso-corto{margin-top:18px;border-left:3px solid var(--laton-claro);background:var(--verde-lavado);padding:13px 16px;border-radius:0 6px 6px 0;font-size:14.5px;color:var(--tinta)}
+.aviso-corto p{max-width:none}
+table{border-collapse:collapse;width:100%;font-size:14.5px;font-variant-numeric:tabular-nums}
+caption{text-align:left;font:500 21px/1.3 var(--serif);padding-bottom:12px}
+th{font:500 13px/1.3 var(--sans);color:var(--suave);text-align:right;padding:9px 0 9px 16px;border-bottom:1px solid var(--linea-fuerte)}
+td{text-align:right;padding:10px 0 10px 16px;border-bottom:1px solid var(--linea);font:400 14.5px/1.4 var(--sans);font-variant-numeric:tabular-nums}
+.grafico text{font-family:var(--mono)}
+th:first-child,td:first-child{text-align:left;padding-left:0}
+tr:last-child td{border-bottom:0}
+.vacio{color:var(--suave);font-size:15px;padding:6px 0 4px}
+details{margin-top:18px;border-top:1px solid var(--linea);border-bottom:1px solid var(--linea)}
+summary{cursor:pointer;padding:14px 0;font:500 19px/1.3 var(--serif);list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:400 22px/1 var(--sans);color:var(--verde)}
+details[open] summary::after{content:"–"}
+details ul{margin:0 0 16px;padding:0 0 0 18px;columns:2;column-gap:44px;font-size:14.5px;color:var(--suave)}
+details li{margin-bottom:8px;break-inside:avoid}
+
+/* Cartera */
+.pastillas{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px}
+.pastillas button{font:500 13px/1 var(--sans);min-height:40px;padding:0 13px;border-radius:3px;border:1px solid var(--linea-fuerte);background:transparent;color:var(--suave);cursor:pointer}
+.pastillas button[aria-pressed="true"]{background:var(--verde);border-color:var(--verde);color:var(--superficie)}
+.composicion{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:18px}
+.dona{display:grid;grid-template-columns:190px minmax(0,1fr);gap:26px;align-items:center}
+.dona svg{width:100%;height:auto;display:block}
+.clases{list-style:none;margin:0;padding:0;font-size:14.5px}
+.clases li{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--linea)}
+.clases li:last-child{border-bottom:0}
+.clases i{width:10px;height:10px;border-radius:50%;flex:none}
+.clases span:last-child{margin-left:auto;font:600 14.5px/1 var(--sans);font-variant-numeric:tabular-nums}
+.tiras{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:20px;border-top:1px solid var(--linea)}
+.tiras div{padding:14px 12px 2px 0}
+.tiras div+div{border-left:1px solid var(--linea);padding-left:14px}
+.tiras small{display:block}
+.tiras strong{font:600 23px/1.2 var(--sans);font-variant-numeric:tabular-nums;letter-spacing:-.015em}
+.barras{list-style:none;margin:0;padding:0;font-size:14px}
+.barras li{display:grid;grid-template-columns:minmax(120px,170px) minmax(0,1fr) 54px;gap:12px;align-items:center;padding:6px 0}
+.barras .pista{display:block;height:10px;border-radius:0 3px 3px 0;background:var(--serie-cartera);min-width:2px}
+.barras b{font:600 14px/1 var(--sans);font-variant-numeric:tabular-nums;text-align:right}
+.subt{font:500 22px/1.3 var(--serif);font-optical-sizing:none;font-variation-settings:"opsz" 14;margin:0 0 10px}
+.aclara{font-size:13.5px;color:var(--tenue);margin:-6px 0 10px}
+.subt.seg{margin-top:24px}
+.pie-foto{font-size:13.5px;color:var(--tenue);margin:12px 0 0;max-width:none}
+
+/* Reportes */
+.archivo{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:start}
+.edicion{display:grid;grid-template-columns:96px minmax(0,1fr);gap:20px;background:var(--superficie);border:1px solid var(--linea);border-radius:3px;padding:22px 24px;margin-bottom:12px;text-decoration:none;transition:border-color .15s,transform .15s}
+a.edicion:hover{border-color:var(--verde);transform:translateY(-1px)}
+.edicion .n{font:italic 400 15px/1.2 var(--serif);color:var(--verde)}
+.edicion .n b{display:block;font:500 34px/1.1 var(--serif);font-style:normal;color:var(--tinta)}
+.edicion h3{font-size:22px;line-height:1.25;margin-bottom:4px}
+.edicion time{font-size:13px;color:var(--tenue);display:block;margin-bottom:8px}
+.edicion p{font-size:15px;color:var(--suave)}
+#ediciones{position:relative;padding-left:24px}
+#ediciones::before{content:"";position:absolute;left:5px;top:14px;bottom:14px;width:1px;background:var(--linea-fuerte)}
+.edicion{position:relative}
+.edicion::before{content:"";position:absolute;left:-24px;top:30px;width:11px;height:11px;border-radius:50%;background:var(--verde);box-shadow:0 0 0 4px var(--fondo)}
+.edicion.proxima{background:transparent;border-style:solid;border-color:var(--linea-fuerte)}
+.edicion.proxima::before{background:var(--fondo);border:2px solid var(--verde)}
+.edicion.proxima b,.edicion.proxima h3{color:var(--suave)}
+.carta{background:var(--verde);color:var(--superficie);border-radius:3px;padding:24px 24px 26px}
+.carta h3{color:var(--superficie);font-size:24px;margin-bottom:8px}
+.carta p{font-size:15px;color:#DCE6DC;margin-bottom:16px}
+.carta a{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border-radius:3px;background:var(--laton-claro);color:var(--verde-hondo);text-decoration:none;font:500 14px/1 var(--sans)}
+.carta a:hover{background:#E8C785}
+
+/* Cierre */
+.contacto{display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap}
+.contacto h2{font-size:clamp(30px,4.2vw,46px);line-height:1.12;margin-bottom:18px;max-width:17em}
+.contacto em{color:var(--laton)}
+.quien{font-size:15px}
+.quien b{font-weight:500;color:var(--tinta)}
+.contacto p{color:var(--suave)}
+footer{border-top:1px solid rgba(217,178,106,.34);background:var(--verde-hondo);color:#DCE6DC;padding:44px 0 34px;font-size:13.5px;line-height:1.6}
+footer h2{font:500 19px/1.3 var(--serif);color:var(--superficie);margin-bottom:8px}
+footer p{max-width:86ch}
+.pie{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px 24px;margin-top:24px;padding-top:16px;border-top:1px solid rgba(255,255,255,.17);color:#B9C9BC}
+
+@media (max-width:940px){
+  .barra .envase{flex-wrap:wrap;height:auto;padding-top:10px;gap:4px 16px}
+  .barra .boton{margin-left:auto;min-height:36px}
+  .menu{order:3;width:100%;margin:0;gap:20px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;white-space:nowrap}
+  .menu::-webkit-scrollbar{display:none}
+  .portada{padding:38px 0 42px}
+  .portada h1{font-size:clamp(78px,23vw,160px)}
+  .portada-rejilla{grid-template-columns:minmax(0,1fr);gap:0}
+  .portada-texto{display:contents}
+  .portada .sobrelinea,.portada h1{order:0}
+  .bajada,.firma{order:1}
+  .bajada{margin-top:16px;font-size:18px}
+  .sello-caja{order:2;margin:14px 0 22px}
+  .acciones{order:3}
+  .sello{width:min(100%,224px)}
+  .sello-centro strong{font-size:54px}
+  .sello-centro span{font-size:12px}
+  .menu{gap:15px;font-size:13.5px}
+  .dos,.tablero-graf,.composicion,.archivo,.recorrido{grid-template-columns:minmax(0,1fr)}
+  .recorrido{gap:0}
+  .visor{display:none}
+  .con-pasos .paso,.paso{opacity:1;min-height:0;padding:20px 0}
+  .paso:first-child,.paso:last-child{min-height:0}
+  .paso-visual{display:block;position:relative;margin-top:18px;color:var(--superficie);border:1px solid rgba(217,178,106,.42);background:var(--verde-hondo)}
+  .paso-visual .vista{position:relative;inset:auto;opacity:1;transform:none;padding:22px 20px;min-height:300px}
+  .otras,.fichas{grid-template-columns:minmax(0,1fr)}
+  .invalida ul{columns:1}
+  .dos{gap:32px}
+  .cifras{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .reglas{grid-template-columns:minmax(0,1fr)}
+  .reglas li,.reglas li+li{padding:18px 0 16px;border-left:0}
+  .reglas li+li{border-top:1px solid rgba(255,255,255,.17)}
+  .seccion{padding:52px 0}
+}
+@media (max-width:560px){
+  .envase{padding:0 16px}
+  .marco{inset:7px}
+  .micro{display:none}
+  .portada-rejilla{padding:0 24px}
+  .dona{grid-template-columns:minmax(0,1fr)}
+  .dona svg{max-width:200px;margin:0 auto}
+  .lamina,.ficha{padding:16px}
+  details ul{columns:1}
+  .edicion{grid-template-columns:minmax(0,1fr);gap:8px;padding:18px}
+  .edicion .n b{display:inline;font-size:20px;margin-left:4px}
+  .ficha-pos{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .ficha-pos>div:first-child{grid-column:1/-1}
+  .ficha-pos strong{font-size:20px}
+  .ley-nota{margin-left:0;width:100%}
+  .barras li{grid-template-columns:minmax(0,1fr) 54px;row-gap:2px}
+  .barras .va{grid-column:1/-1;grid-row:2}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+@media print{*{transition:none!important;animation:none!important}html{-webkit-print-color-adjust:exact;print-color-adjust:exact}.barra,.tira,.cinta,.saltar,.privado{display:none}.seccion{padding:28px 0}.lamina,.mapa,.otra,.paso{break-inside:avoid}.visor{position:static;height:auto}}
+</style>
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<header class="barra"><div class="progreso" id="progreso" aria-hidden="true"></div><div class="envase">
+  <a class="marca" href="#inicio">Di Fiore</a>
+  <nav class="menu" aria-label="Secciones">
+    <a href="#perfil">Perfil</a><a id="nav-decido" href="#decido">Proceso</a><a href="#rendimiento">Rendimiento</a><a href="#cartera">Cartera</a><a href="#reportes">Reportes</a><a href="#contacto">Autor</a>
+  </nav>
+  <a class="boton lleno" href="https://www.linkedin.com/in/juanandreadagliodifiore/" rel="noopener">LinkedIn</a>
+</div></header>
+
+<main id="contenido">
+<section class="portada" id="inicio"><div class="marco" aria-hidden="true"></div><div class="envase portada-rejilla">
+  <div class="portada-texto">
+    <p class="sobrelinea">Cartera modelo · Serie 2026</p>
+    <h1>Di Fiore</h1>
+    <p class="bajada">Composición, rendimiento y decisiones de mi cartera, cada dos semanas y contra el S&amp;P 500. Un registro para poner mi criterio a prueba.</p>
+    <p class="firma">Por Juan Andrea Daglio di Fiore</p>
+    <div class="acciones">
+      <a class="boton lleno" href="#rendimiento">Ver el rendimiento</a>
+      <a class="boton linea" href="#reportes">Leer los reportes</a>
+    </div>
+  </div>
+  <aside class="sello-caja" aria-label="Valor de la cartera en base 100">
+    <div class="sello">
+      <canvas id="roseta-a" aria-hidden="true"></canvas><canvas id="roseta-b" aria-hidden="true"></canvas>
+      <div class="sello-centro"><small>Base 100</small><strong id="k-nivel">—</strong><span id="k-rend">—</span></div>
+    </div>
+    <div class="sello-datos">
+      <div class="renglon" id="r-bench"><span>S&amp;P 500</span><span id="k-bench">—</span></div>
+      <div class="renglon" id="r-dif"><span>Diferencia</span><span id="k-dif">—</span></div>
+      <div class="renglon"><span id="k-prox-et">Próximo corte</span><span id="k-prox">—</span></div>
+      <p class="nota-sello" id="k-nota">—</p>
+    </div>
+  </aside>
+</div></section>
+<div class="tira" id="tira" aria-hidden="true"><div class="tira-pista" id="tira-pista"></div></div>
+
+<section class="seccion" id="proyecto"><div class="envase dos">
+  <div class="cabeza" style="margin:0"><p class="sobrelinea">El proyecto</p><h2>Un registro de decisiones, abierto a la medición.</h2></div>
+  <div><p>Soy Juan Andrea Daglio di Fiore, estudiante de la Licenciatura en Finanzas en la Universidad de San Andrés. Tomo mis decisiones de inversión con un proceso escrito, y este proyecto existe para que ese proceso se pueda medir.</p><p>Por eso la serie arranca el 4 de noviembre de 2026, sin historia reconstruida. Cada reporte queda archivado con su fecha y su huella digital: lo que salió bien y lo que salió mal siguen a la vista.</p></div>
+</div></section>
+
+<section class="seccion" id="perfil"><div class="envase">
+  <div class="cabeza"><p class="sobrelinea">Perfil</p><h2>Qué busca la cartera y con qué reglas.</h2></div>
+  <div class="dos">
+    <div><p>La cartera busca crecimiento de capital en dólares, con un horizonte de 5 años o más. El perfil es moderadamente agresivo: se concentra en renta variable global y usa renta fija corporativa, metales y bitcoin como complemento.</p><p>Acepto caídas fuertes en el camino porque el objetivo se mide en años. El S&amp;P 500 es la vara: si después de un ciclo completo no le gano, el proceso tiene que cambiar.</p></div>
+    <div class="ficha">
+      <dl class="datos">
+        <dt>Objetivo</dt><dd>Crecimiento de capital en dólares</dd>
+        <dt>Perfil de riesgo</dt><dd>Moderadamente agresivo</dd>
+        <dt>Horizonte</dt><dd>5 años o más</dd>
+        <dt>Índice de referencia</dt><dd>S&amp;P 500</dd>
+        <dt>Moneda</dt><dd>Dólares</dd>
+        <dt>Frecuencia</dt><dd>Cada dos semanas</dd>
+      </dl>
+    </div>
+  </div>
+</div></section>
+
+<section class="banda" aria-label="Reglas"><canvas id="cinta" class="cinta" aria-hidden="true"></canvas><div class="envase"><ol class="reglas"><li><span class="num">1</span><h3>La valuación decide</h3><p>Una posición entra cuando el valor estimado de hoy deja margen de seguridad sobre el precio de hoy.</p></li><li><span class="num">2</span><h3>Todo se define antes</h3><p>Cada decisión lleva por escrito su tamaño máximo, su gatillo y qué tendría que pasar para invalidarla.</p></li><li><span class="num">3</span><h3>La ejecución no improvisa</h3><p>Se opera con órdenes límite. A mercado solo cuando una regla con fecha lo pide.</p></li></ol></div></section>
+
+<section class="seccion" id="decido" style="border-top:0"><div class="envase">
+  <div class="cabeza"><p class="sobrelinea">Cómo decido</p><h2>El proceso, con un caso real.</h2>
+    <p id="decido-bajada"></p></div>
+  <div class="recorrido">
+    <div class="visor" id="visor" aria-hidden="true"></div>
+    <ol class="pasos" id="pasos"></ol>
+  </div>
+  <div class="invalida" id="invalida"></div>
+  <h3 class="subt seg">Otras decisiones, con lo que pasó después</h3>
+  <div class="otras" id="otras"></div>
+  <div class="cab-tesis"><h3 class="subt seg">Las tesis de toda la cartera</h3><p class="aclara" id="fichas-resumen"></p></div>
+  <div class="fichas" id="fichas"></div>
+  <h3 class="subt seg">Qué rol cumple cada activo</h3>
+  <div class="lamina"><div class="tabla-ancha" id="roles"></div></div>
+</div></section>
+
+<section class="seccion" id="rendimiento"><div class="envase">
+  <div class="cabeza"><p class="sobrelinea">Rendimiento</p><h2>Cartera contra S&amp;P 500, en base 100.</h2>
+    <p>Las dos series arrancan en 100 el <span id="t-base"></span>, en dólares y con dividendos reinvertidos. Es un rendimiento hipotético del modelo y bruto: no refleja operaciones, costos ni retenciones.</p></div>
+  <div class="tablero-graf">
+    <div class="lamina">
+      <div class="graf-cab"><p class="leyenda" id="leyenda"></p>
+        <div class="selector" id="vistas" role="group" aria-label="Vista del gráfico"><button type="button" data-m="base" aria-pressed="true">Base 100</button><button type="button" data-m="dif" aria-pressed="false">Diferencia</button><button type="button" data-m="caida" aria-pressed="false">Caídas</button></div></div>
+      <div class="grafico" id="graf" aria-hidden="true"></div>
+      <p class="oculto" id="graf-texto"></p>
+    </div>
+    <div class="cifras">
+      <div class="cifra"><small>Cartera</small><strong id="c-rend">—</strong></div>
+      <div class="cifra"><small>S&amp;P 500</small><strong id="c-bench">—</strong></div>
+      <div class="cifra"><small>Diferencia</small><strong id="c-dif">—</strong></div>
+      <div class="cifra"><small id="c-caida-et">Máxima caída</small><strong id="c-caida">—</strong></div>
+    </div>
+  </div>
+  <div class="lamina" id="caja-aportes" style="margin-top:18px"><h3 class="subt">Qué sumó y qué restó</h3><p class="aclara">Las que más sumaron y más restaron desde el inicio, en puntos porcentuales. La ON no tiene precio entre cortes.</p><ul class="aportes" id="aportes"></ul></div>
+  <div class="aviso-corto"><p>La serie es nueva. Con tan pocos datos, el Sharpe, el Sortino o un rendimiento anualizado no dirían nada, así que no los muestro. Los voy a sumar cuando la muestra los justifique.</p><p id="nota-abierto" hidden>Tramo abierto: la ON y la liquidez no tienen precio diario, así que la diferencia parcial todavía no es un resultado.</p></div>
+  <div class="lamina" id="caja-tramos" style="margin-top:18px"><div id="tramos"></div></div>
+  <details open><summary>Cómo se mide</summary><ul><li>Es un rendimiento hipotético del modelo, no el de una cuenta. Los pesos salen de cada corte, pero entre cortes no refleja operaciones ni precios de ejecución. Un inversor real obtendría menos.</li><li>La serie está en dólares y parte de base 100 el 4 de noviembre de 2026. Los pesos de cada corte se valúan al dólar CCL de ese día.</li><li>Un corte es la fecha de un extracto, un tramo va de un corte al siguiente, y pp son puntos porcentuales.</li><li>En cada corte se fijan los pesos. Entre cortes, cada posición rinde el retorno en dólares de su activo subyacente, con dividendos brutos reinvertidos.</li><li>La medición es bruta, para la cartera y el índice. No descuenta costos, comisiones, derechos de mercado, spreads, retenciones sobre dividendos ni impuestos.</li><li>Los aportes y retiros no mueven la curva. Una operación hecha entre dos cortes aparece recién en el corte siguiente.</li><li>Entre cortes, la ON queda al precio del último extracto y figura «s/p», sin precio. Su movimiento entra entero en el corte siguiente, con sus cupones. La liquidez, casi toda en pesos, se trata como cero: no refleja la variación del tipo de cambio.</li><li>Por eso, en un tramo abierto, la diferencia contra el índice favorece a la cartera si el mercado cae y la perjudica si sube.</li><li>El modelo incluye las acciones, los metales y la liquidez de la cartera, más una parte de sus posiciones de renta fija y bitcoin.</li><li>Los CEDEARs y la acción local se miden por el precio en dólares de la acción original, no por lo que cotizan en Buenos Aires. Precios: cierres ajustados de Yahoo Finance, sin verificación independiente. Bitcoin cierra por día UTC, unas horas después de la bolsa.</li><li>El S&amp;P 500 se mide con el ETF SPY, con dividendos reinvertidos, sobre las mismas fechas.</li><li>La cartera incluye renta fija, bitcoin, metales y liquidez; el S&amp;P 500 es solo acciones de EE. UU. Es una vara de comparación, no un índice equivalente.</li><li>El aporte de una posición es su peso al inicio del tramo por su retorno. Muestra qué explicó el resultado.</li></ul></details>
+</div></section>
+
+<section class="seccion" id="cartera"><div class="envase">
+  <div class="cabeza"><p class="sobrelinea">Cartera</p><h2>En qué está invertida.</h2>
+    <p>% de la cartera en cada corte, sin montos.</p></div>
+  <div class="pastillas" id="pastillas" role="group" aria-label="Elegir corte"></div>
+  <div class="bloque-mapa" id="bloque-mapa">
+    <div class="mapa-cab"><h3 class="subt">Mapa de posiciones</h3>
+      <div class="selector" id="modos" role="group" aria-label="Color del mapa"><button type="button" data-m="retorno">Retorno</button><button type="button" data-m="clase">Clase</button></div></div>
+    <div class="mapa" id="mapa"></div>
+    <div class="mapa-ley" id="mapa-ley"></div>
+    <div class="ficha-pos" id="ficha-pos" aria-live="polite"></div>
+    <p class="pie-foto" id="cambios"></p>
+    <details><summary>Ver todas las posiciones</summary><div class="tabla-ancha" id="tabla-pos"></div></details>
+  </div>
+  <div class="composicion">
+    <div class="lamina">
+      <h3 class="subt">Por clase de activo</h3>
+      <div class="dona"><div id="dona"></div><ul class="clases" id="clases"></ul></div>
+      <div class="tiras">
+        <div><small>Posiciones</small><strong id="t-pos">—</strong></div>
+        <div><small>Cinco mayores</small><strong id="t-top">—</strong></div>
+        <div><small>Renta fija y liquidez</small><strong id="t-rf">—</strong></div>
+      </div>
+    </div>
+    <div class="lamina">
+      <h3 class="subt">Sectores de la renta variable</h3><p class="aclara">Peso sobre el total de la cartera.</p><ul class="barras" id="sectores"></ul>
+      <h3 class="subt seg">Regiones de la renta variable</h3><ul class="barras" id="regiones"></ul>
+    </div>
+  </div>
+  <p class="pie-foto" id="pie-foto"></p>
+</div></section>
+
+<section class="seccion" id="reportes"><div class="envase">
+  <div class="cabeza"><p class="sobrelinea">Reportes</p><h2>Una página cada dos semanas.</h2>
+    <p>Qué pasó en el mercado y cómo cambió el peso de cada sector. Cada reporte queda archivado con su fecha.</p></div>
+  <div class="archivo">
+    <div id="ediciones"></div>
+    <aside class="carta"><h3>Carta de presentación</h3><p>El objetivo, las reglas y la forma de medir, por escrito y con fecha.</p><a href="carta-de-presentacion.pdf">Leer la carta (PDF)</a></aside>
+  </div>
+</div></section>
+
+<section class="seccion" id="contacto"><div class="envase contacto">
+  <div><p class="sobrelinea">Autor</p><h2>Juan Andrea Daglio di Fiore</h2><p class="quien">Estudiante de la Licenciatura en Finanzas en la Universidad de San Andrés</p></div>
+  <a class="boton lleno" href="https://www.linkedin.com/in/juanandreadagliodifiore/" rel="noopener">LinkedIn</a>
+</div></section>
+</main>
+
+<footer><div class="envase">
+  <h2>Aviso legal</h2>
+  <p>Este es un proyecto personal con fines informativos y educativos. Muestra una cartera modelo en porcentajes y base 100, construida a partir de una cartera personal: no es el resultado de una cuenta. Nada de este material es asesoramiento financiero, oferta ni recomendación de comprar o vender un instrumento, ni una propuesta para administrar inversiones de terceros. Mencionar un instrumento no es recomendarlo. No soy agente registrado ante la Comisión Nacional de Valores. El rendimiento pasado no garantiza resultados futuros y toda inversión tiene riesgo de pérdida de capital.</p>
+  <div class="pie"><span>Di Fiore · Cartera modelo</span><span id="pie-fecha"></span></div>
+</div></footer>
+
+<noscript><p style="text-align:center;padding:16px">Los gráficos necesitan JavaScript. Los reportes en PDF siguen disponibles.</p></noscript>
+<script id="datos" type="application/json">{"base": "2026-11-04", "ultima_fecha": "2026-11-06", "proximo_corte": "2026-11-18", "serie": [{"fecha": "2026-11-04", "cartera": 100.0, "benchmark": 100.0}, {"fecha": "2026-11-05", "cartera": 97.278, "benchmark": 95.591}, {"fecha": "2026-11-06", "cartera": 97.798, "benchmark": 95.889}], "tramos": [{"desde": "2026-11-04", "hasta": "2026-11-06", "cartera": -0.022, "benchmark": -0.04110538416505394, "diferencia": 0.0191, "cerrado": false}], "fotos": [{"fecha": "2026-11-04", "clases": [{"nombre": "Acciones", "peso": 0.684}, {"nombre": "Metales", "peso": 0.039}, {"nombre": "Bitcoin", "peso": 0.073}, {"nombre": "Renta fija", "peso": 0.148}, {"nombre": "Liquidez", "peso": 0.055}], "sectores": [{"nombre": "Financiero", "peso": 0.212}, {"nombre": "Renta fija", "peso": 0.148}, {"nombre": "Consumo discrecional", "peso": 0.137}, {"nombre": "Energía y utilities", "peso": 0.115}, {"nombre": "Industria y transporte", "peso": 0.111}, {"nombre": "Bitcoin", "peso": 0.073}, {"nombre": "Comunicaciones", "peso": 0.069}, {"nombre": "Liquidez", "peso": 0.055}, {"nombre": "Metales", "peso": 0.039}, {"nombre": "Consumo defensivo", "peso": 0.029}, {"nombre": "Tecnología", "peso": 0.008}, {"nombre": "Materiales", "peso": 0.003}], "regiones": [{"nombre": "Estados Unidos", "peso": 0.425}, {"nombre": "Argentina", "peso": 0.186}, {"nombre": "América Latina", "peso": 0.154}, {"nombre": "Global", "peso": 0.139}, {"nombre": "Liquidez", "peso": 0.055}, {"nombre": "China", "peso": 0.04}], "regiones_rv": [{"nombre": "Estados Unidos", "peso": 0.425}, {"nombre": "América Latina", "peso": 0.154}, {"nombre": "China", "peso": 0.04}, {"nombre": "Argentina", "peso": 0.038}, {"nombre": "Global", "peso": 0.027}], "n_posiciones": 20, "top5": 0.561, "renta_fija": 0.148, "liquidez": 0.055, "posiciones": [{"id": "YPF 31", "nombre": "ON YPF 2031", "clase": "Renta fija", "sector": "Renta fija", "region": "Argentina", "peso": 0.148, "retorno": 0.0, "aporte": 0.0, "sin_precio": true}, {"id": "SPGI", "nombre": "S&P Global", "clase": "Acciones", "sector": "Financiero", "region": "Estados Unidos", "peso": 0.143, "retorno": -0.0288, "aporte": -0.0041, "sin_precio": false}, {"id": "UBER", "nombre": "Uber", "clase": "Acciones", "sector": "Industria y transporte", "region": "Estados Unidos", "peso": 0.111, "retorno": -0.0183, "aporte": -0.002, "sin_precio": false}, {"id": "MELI", "nombre": "MercadoLibre", "clase": "Acciones", "sector": "Consumo discrecional", "region": "América Latina", "peso": 0.085, "retorno": -0.1321, "aporte": -0.0113, "sin_precio": false}, {"id": "BTC", "nombre": "Bitcoin", "clase": "Bitcoin", "sector": "Bitcoin", "region": "Global", "peso": 0.073, "retorno": -0.0579, "aporte": -0.0042, "sin_precio": false}, {"id": "NU", "nombre": "Nu Holdings", "clase": "Acciones", "sector": "Financiero", "region": "América Latina", "peso": 0.068, "retorno": 0.0033, "aporte": 0.0002, "sin_precio": false}, {"id": "Liquidez", "nombre": "Liquidez", "clase": "Liquidez", "sector": "Liquidez", "region": "Liquidez", "peso": 0.055, "retorno": 0.0, "aporte": 0.0, "sin_precio": false}, {"id": "VST", "nombre": "Vistra", "clase": "Acciones", "sector": "Energía y utilities", "region": "Estados Unidos", "peso": 0.054, "retorno": 0.0375, "aporte": 0.002, "sin_precio": false}, {"id": "PAMP", "nombre": "Pampa Energía", "clase": "Acciones", "sector": "Energía y utilities", "region": "Argentina", "peso": 0.038, "retorno": -0.0194, "aporte": -0.0007, "sin_precio": false}, {"id": "DIS", "nombre": "Disney", "clase": "Acciones", "sector": "Comunicaciones", "region": "Estados Unidos", "peso": 0.035, "retorno": -0.0185, "aporte": -0.0007, "sin_precio": false}, {"id": "BABA", "nombre": "Alibaba", "clase": "Acciones", "sector": "Consumo discrecional", "region": "China", "peso": 0.033, "retorno": 0.0395, "aporte": 0.0013, "sin_precio": false}, {"id": "PEP", "nombre": "PepsiCo", "clase": "Acciones", "sector": "Consumo defensivo", "region": "Estados Unidos", "peso": 0.029, "retorno": -0.0076, "aporte": -0.0002, "sin_precio": false}, {"id": "GLD", "nombre": "Oro (ETF)", "clase": "Metales", "sector": "Metales", "region": "Global", "peso": 0.027, "retorno": 0.0001, "aporte": 0.0, "sin_precio": false}, {"id": "CCJ", "nombre": "Cameco", "clase": "Acciones", "sector": "Energía y utilities", "region": "Global", "peso": 0.023, "retorno": -0.0053, "aporte": -0.0001, "sin_precio": false}, {"id": "META", "nombre": "Meta Platforms", "clase": "Acciones", "sector": "Comunicaciones", "region": "Estados Unidos", "peso": 0.019, "retorno": -0.0315, "aporte": -0.0006, "sin_precio": false}, {"id": "GOOGL", "nombre": "Alphabet", "clase": "Acciones", "sector": "Comunicaciones", "region": "Estados Unidos", "peso": 0.015, "retorno": -0.0144, "aporte": -0.0002, "sin_precio": false}, {"id": "SLV", "nombre": "Plata (ETF)", "clase": "Metales", "sector": "Metales", "region": "Global", "peso": 0.012, "retorno": -0.0061, "aporte": -0.0001, "sin_precio": false}, {"id": "MCD", "nombre": "McDonald's", "clase": "Acciones", "sector": "Consumo discrecional", "region": "Estados Unidos", "peso": 0.011, "retorno": -0.0132, "aporte": -0.0001, "sin_precio": false}, {"id": "SNDK", "nombre": "SanDisk", "clase": "Acciones", "sector": "Tecnología", "region": "Estados Unidos", "peso": 0.008, "retorno": -0.195, "aporte": -0.0016, "sin_precio": false}, {"id": "JD", "nombre": "JD.com", "clase": "Acciones", "sector": "Consumo discrecional", "region": "China", "peso": 0.007, "retorno": 0.0498, "aporte": 0.0004, "sin_precio": false}, {"id": "GDX", "nombre": "Mineras de oro (ETF)", "clase": "Acciones", "sector": "Materiales", "region": "Global", "peso": 0.003, "retorno": 0.0356, "aporte": 0.0001, "sin_precio": false}], "altas": [], "bajas": []}], "rendimiento": -0.022, "rendimiento_bench": -0.0411, "diferencia": 0.0191, "max_caida": -0.0272, "max_caida_bench": -0.0441, "mostrar_posiciones": true, "aportes": [{"id": "YPF 31", "nombre": "ON YPF 2031", "aporte": 0.0}, {"id": "SPGI", "nombre": "S&P Global", "aporte": -0.0041}, {"id": "UBER", "nombre": "Uber", "aporte": -0.002}, {"id": "MELI", "nombre": "MercadoLibre", "aporte": -0.0113}, {"id": "BTC", "nombre": "Bitcoin", "aporte": -0.0042}, {"id": "NU", "nombre": "Nu Holdings", "aporte": 0.0002}, {"id": "VST", "nombre": "Vistra", "aporte": 0.002}, {"id": "PAMP", "nombre": "Pampa Energía", "aporte": -0.0007}, {"id": "DIS", "nombre": "Disney", "aporte": -0.0007}, {"id": "BABA", "nombre": "Alibaba", "aporte": 0.0013}, {"id": "PEP", "nombre": "PepsiCo", "aporte": -0.0002}, {"id": "GLD", "nombre": "Oro (ETF)", "aporte": 0.0}, {"id": "CCJ", "nombre": "Cameco", "aporte": -0.0001}, {"id": "META", "nombre": "Meta Platforms", "aporte": -0.0006}, {"id": "GOOGL", "nombre": "Alphabet", "aporte": -0.0002}, {"id": "SLV", "nombre": "Plata (ETF)", "aporte": -0.0001}, {"id": "MCD", "nombre": "McDonald's", "aporte": -0.0001}, {"id": "SNDK", "nombre": "SanDisk", "aporte": -0.0016}, {"id": "JD", "nombre": "JD.com", "aporte": 0.0004}, {"id": "GDX", "nombre": "Mineras de oro (ETF)", "aporte": 0.0001}], "ediciones": [{"numero": 0, "fecha": "2026-11-04", "titulo": "Punto de partida", "resumen": "Este reporte fija el punto de partida: la cartera y el S&P 500 arrancan en 100 el 4 de noviembre de 2026. Todavía no hay rendimiento para comparar. El primer tramo se mide con el corte del 18 de noviembre de 2026.", "archivo": "informes/reporte-00-2026-11-04.pdf"}]}</script>
+<script>
+(function(){
+"use strict";
+var D=JSON.parse(document.getElementById("datos").textContent);
+var COLOR={"Acciones":"#2E8B66","Metales":"#C4891F","Bitcoin":"#4A7FC1","Renta fija":"#123F31","Liquidez":"#A89C84"};
+var MESES=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+var $=function(id){return document.getElementById(id)};
+function num(x,d){return Number(x).toLocaleString("es-AR",{minimumFractionDigits:d,maximumFractionDigits:d})}
+function pct(x,d,s){var v=x*100,t=num(Math.abs(v),d===undefined?2:d);var nulo=Number(num(Math.abs(v),d===undefined?2:d).replace(",","."))===0;return (v<0&&!nulo?"−":(s&&!nulo?"+":""))+t+"%"}
+function pp(x){var v=x*100,t=num(Math.abs(v),2);var nulo=Number(t.replace(",","."))===0;return (v<0&&!nulo?"−":(!nulo?"+":""))+t+" pp"}
+function corta(f){var p=f.split("-");return p[2]+"/"+p[1]+"/"+p[0]}
+function larga(f){var p=f.split("-");return Number(p[2])+" de "+MESES[Number(p[1])-1]+" de "+p[0]}
+function esc(t){var e=document.createElement("span");e.textContent=t;return e.innerHTML}
+
+var sinDatos=!D.tramos.some(function(t){return t.cerrado}),tramoAbierto=D.tramos.some(function(t){return !t.cerrado});
+$("k-nivel").textContent=num(D.serie[D.serie.length-1].cartera,1);
+$("k-rend").textContent=pct(D.rendimiento,2,true);
+$("k-nota").textContent="Base 100 el "+corta(D.base)+" · último cierre "+corta(D.ultima_fecha);
+$("k-bench").textContent=pct(D.rendimiento_bench,2,true);
+$("k-dif").textContent=pp(D.diferencia);
+$("k-prox").textContent=corta(D.proximo_corte);
+$("t-base").textContent=larga(D.base);
+$("graf-texto").textContent="Desde el "+larga(D.base)+" hasta el "+larga(D.ultima_fecha)+", la cartera pasó de 100 a "+num(D.serie[D.serie.length-1].cartera,1)+" y el S&P 500 de 100 a "+num(D.serie[D.serie.length-1].benchmark,1)+".";
+$("c-rend").textContent=pct(D.rendimiento,2,true);
+$("nota-abierto").hidden=!(tramoAbierto&&!D.tramos.every(function(t){return !t.cerrado}));
+$("c-bench").textContent=pct(D.rendimiento_bench,2,true);
+$("c-dif").textContent=pp(D.diferencia);
+$("c-caida").textContent=pct(D.max_caida,2);
+$("c-caida-et").textContent="Máxima caída · S&P 500 "+pct(D.max_caida_bench,2);
+$("pie-fecha").textContent="Datos al "+corta(D.ultima_fecha);
+if(sinDatos){
+  $("k-nivel").textContent="100";$("k-rend").textContent="Serie iniciada";
+  $("k-nota").textContent="Cartera y S&P 500 arrancan iguales el "+corta(D.base);
+  $("r-bench").hidden=true;$("r-dif").hidden=true;
+  $("k-prox-et").textContent="Primer tramo";
+  document.querySelector(".leyenda").hidden=true;
+  document.querySelector(".cifras").hidden=true;
+  $("vistas").hidden=true;$("caja-aportes").hidden=true;$("modos").hidden=true;
+  document.querySelector(".tablero-graf").classList.add("solo");
+  $("caja-tramos").hidden=true;
+}
+
+/* Gráfico con tres vistas: un solo eje, etiquetas al final y lectura al pasar el cursor. */
+var modoGraf="base";
+function seriesGraf(){
+  var S=D.serie;
+  if(modoGraf==="dif")return {ref:0,suf:" pp",dec:2,lista:[{n:"Diferencia",c:"#123F31",v:S.map(function(p){return p.cartera-p.benchmark})}]};
+  function caida(k){var m=0;return S.map(function(p){m=Math.max(m,p[k]);return (p[k]/m-1)*100})}
+  if(modoGraf==="caida")return {ref:0,suf:"%",dec:2,lista:[{n:"Cartera",c:"#123F31",v:caida("cartera")},{n:"S&P 500",c:"#9A6A12",v:caida("benchmark")}]};
+  return {ref:100,suf:"",dec:1,lista:[{n:"Cartera",c:"#123F31",v:S.map(function(p){return p.cartera})},{n:"S&P 500",c:"#9A6A12",v:S.map(function(p){return p.benchmark})}]};
+}
+function grafico(){
+  var S=D.serie,cont=$("graf"),W=Math.max(cont.clientWidth,300),o;
+  if(sinDatos){
+    /* Sin tramos todavía: la recta de 100 con los próximos cortes, no un gráfico vacío. */
+    var chico=W<520,fmt=function(f){return chico?corta(f).slice(0,5):corta(f)};
+    var ini=Date.parse(D.base+"T12:00:00Z"),k,x0=14,x1=W-(chico?22:44),yR=24;
+    o='<svg viewBox="0 0 '+W+' 66" aria-hidden="true"><line x1="'+x0+'" x2="'+x1+'" y1="'+yR+'" y2="'+yR+'" stroke="#C7BBA4" stroke-width="2"/>';
+    for(k=1;k<4;k++){var xk=x0+(x1-x0)*k/3,fk=new Date(ini+k*14*864e5).toISOString().slice(0,10);
+      o+='<line x1="'+xk+'" x2="'+xk+'" y1="'+(yR-7)+'" y2="'+(yR+7)+'" stroke="#C7BBA4" stroke-width="2"/><text x="'+xk+'" y="'+(yR+30)+'" text-anchor="middle" font-size="12" fill="#5E6862">'+fmt(fk)+'</text>';}
+    o+='<circle class="latido" cx="'+x0+'" cy="'+yR+'" r="6" fill="#2E8B66"/><circle cx="'+x0+'" cy="'+yR+'" r="6" fill="#FBF7EE"/><circle cx="'+x0+'" cy="'+yR+'" r="4" fill="#2E8B66"/>';
+    o+='<text x="'+(x0-8)+'" y="'+(yR+30)+'" font-size="12" fill="#5E6862">'+fmt(D.base)+'</text>';
+    cont.innerHTML='<p class="recta">Cartera y S&amp;P 500 arrancan en 100. La primera comparación sale el '+corta(D.proximo_corte)+'.</p>'+o+'</svg>';return;
+  }
+  var H=W<520?260:340,G=seriesGraf(),m={i:46,d:W<520?78:108,a:12,b:28},pw=W-m.i-m.d,ph=H-m.a-m.b,vals=[G.ref];
+  G.lista.forEach(function(s){vals=vals.concat(s.v)});
+  var lo=Math.min.apply(null,vals),hi=Math.max.apply(null,vals);if(hi-lo<.2){hi+=.1;lo-=.1}
+  var paso=[.1,.2,.5,1,2,5,10,20,50].filter(function(p){return (hi-lo)/p<=4.5})[0]||100,decEje=paso<1?1:0;
+  var ymin=Math.floor((lo-paso*.2)/paso)*paso,ymax=Math.ceil((hi+paso*.2)/paso)*paso;
+  var n=Math.max(S.length-1,1),px=function(i){return m.i+pw*i/n},py=function(v){return m.a+ph*(1-(v-ymin)/(ymax-ymin))},v;
+  $("leyenda").innerHTML=G.lista.map(function(s){return '<span><i style="background:'+s.c+'"></i>'+esc(s.n)+'</span>'}).join("");
+  o='<svg viewBox="0 0 '+W+' '+H+'" aria-hidden="true">';
+  for(v=ymin;v<=ymax+1e-9;v+=paso){var base=Math.abs(v-G.ref)<1e-9;o+='<line x1="'+m.i+'" x2="'+(m.i+pw)+'" y1="'+py(v)+'" y2="'+py(v)+'" stroke="'+(base?"#C7BBA4":"#DDD3C0")+'"/><text x="'+(m.i-9)+'" y="'+(py(v)+4)+'" text-anchor="end" font-size="12" fill="#5E6862">'+num(v,decEje)+'</text>';}
+  o+='<text x="'+m.i+'" y="'+(H-7)+'" font-size="12" fill="#5E6862">'+corta(S[0].fecha)+'</text><text x="'+(m.i+pw)+'" y="'+(H-7)+'" text-anchor="end" font-size="12" fill="#5E6862">'+corta(S[S.length-1].fecha)+'</text>';
+  G.lista.slice().reverse().forEach(function(s){
+    var d=s.v.map(function(y,i){return (i?"L":"M")+px(i).toFixed(1)+" "+py(y).toFixed(1)}).join(" ");
+    o+='<path d="'+d+'" fill="none" stroke="'+s.c+'" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>';
+  });
+  var et=G.lista.map(function(s){var u=s.v[s.v.length-1];return {y:py(u),v:u,c:s.c,n:s.n}}).sort(function(a,b){return a.y-b.y});
+  et.forEach(function(e){e.yt=e.y});
+  if(et.length>1&&et[1].y-et[0].y<34){var med=(et[0].y+et[1].y)/2;et[0].yt=med-17;et[1].yt=med+17}
+  et.forEach(function(e){
+    o+='<circle cx="'+px(n)+'" cy="'+e.y+'" r="6" fill="#FBF7EE"/><circle cx="'+px(n)+'" cy="'+e.y+'" r="4" fill="'+e.c+'"/>';
+    o+='<text x="'+(px(n)+11)+'" y="'+(e.yt-2)+'" font-size="12" fill="#4A564F">'+esc(e.n)+'</text><text x="'+(px(n)+11)+'" y="'+(e.yt+13)+'" font-size="14" font-weight="600" fill="#14201B">'+num(e.v,G.dec)+esc(G.suf)+'</text>';
+  });
+  o+='<line id="cruz" y1="'+m.a+'" y2="'+(m.a+ph)+'" stroke="#C7BBA4" opacity="0"/>';
+  G.lista.forEach(function(s,j){o+='<circle id="p-'+j+'" r="4" fill="'+s.c+'" stroke="#FBF7EE" stroke-width="2" opacity="0"/>'});
+  o+='<rect id="zona" x="'+m.i+'" y="'+m.a+'" width="'+pw+'" height="'+ph+'" fill="transparent"/>';
+  cont.innerHTML=o+'</svg><div class="globo" id="globo"></div>';
+  var zona=$("zona"),escala=function(){return cont.clientWidth/W};
+  function mover(e){
+    var r=zona.getBoundingClientRect(),x=(e.touches?e.touches[0].clientX:e.clientX)-r.left,i=Math.max(0,Math.min(n,Math.round(x/r.width*n))),g=$("globo"),tope=1e9;
+    $("cruz").setAttribute("x1",px(i));$("cruz").setAttribute("x2",px(i));$("cruz").setAttribute("opacity",1);
+    var txt='<b>'+corta(S[i].fecha)+'</b>';
+    G.lista.forEach(function(s,j){var el=$("p-"+j),yy=py(s.v[i]);el.setAttribute("cx",px(i));el.setAttribute("cy",yy);el.setAttribute("opacity",1);tope=Math.min(tope,yy);txt+=esc(s.n)+' '+num(s.v[i],2)+esc(G.suf)+'<br>'});
+    g.innerHTML=txt;g.style.opacity=1;g.style.left=Math.max(70,Math.min(cont.clientWidth-70,px(i)*escala()))+"px";g.style.top=Math.max(64,tope*escala()-12)+"px";
+  }
+  function salir(){$("cruz").setAttribute("opacity",0);G.lista.forEach(function(s,j){$("p-"+j).setAttribute("opacity",0)});$("globo").style.opacity=0}
+  zona.addEventListener("mousemove",mover);zona.addEventListener("touchmove",mover,{passive:true});zona.addEventListener("mouseleave",salir);zona.addEventListener("touchend",salir);
+}
+
+/* Mapa de posiciones: tamaño por peso, color por retorno o por clase. */
+var fotoActual=0,modoMapa=sinDatos?"clase":"retorno",elegida=null,ordenPos={k:"peso",d:-1},baldosas={};
+function hex(h){return [1,3,5].map(function(i){return parseInt(h.substr(i,2),16)})}
+function mezcla(a,b,t){var x=hex(a),y=hex(b);return "#"+x.map(function(v,i){var c=Math.round(v+(y[i]-v)*t).toString(16);return c.length<2?"0"+c:c}).join("")}
+function colorRet(r){return mezcla("#D3CCBB",r<0?"#D9846C":"#62B793",Math.pow(Math.min(Math.abs(r)/.08,1),.65))}
+function tintaSobre(c){var m=hex(c).map(function(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)}),L=.2126*m[0]+.7152*m[1]+.0722*m[2];return (L+.05)/.063>=.98/(L+.05)?"#14201B":"#FBF7EE"}
+function squarify(items,x,y,w,h){
+  var out=[],fila=[],cola=items.slice();
+  function peor(f,l){var s=0,mx=0,mn=1e18;f.forEach(function(r){s+=r.a;mx=Math.max(mx,r.a);mn=Math.min(mn,r.a)});return Math.max(l*l*mx/(s*s),s*s/(l*l*mn))}
+  function ubicar(){var s=fila.reduce(function(a,r){return a+r.a},0),p;
+    if(w>=h){var an=s/h;p=y;fila.forEach(function(r){out.push({it:r.it,x:x,y:p,w:an,h:r.a/an});p+=r.a/an});x+=an;w-=an}
+    else{var al=s/w;p=x;fila.forEach(function(r){out.push({it:r.it,x:p,y:y,w:r.a/al,h:al});p+=r.a/al});y+=al;h-=al}}
+  while(cola.length){var c=cola[0],l=Math.min(w,h);if(!fila.length||peor(fila.concat([c]),l)<=peor(fila,l)){fila.push(c);cola.shift()}else{ubicar();fila=[]}}
+  if(fila.length)ubicar();return out;
+}
+function ret(p,d){return p.sin_precio?"s/p":pct(p.retorno,d,true)}
+function aporte(p){return p.sin_precio?"s/p":pp(p.aporte)}
+function posicionesActuales(){return D.fotos[fotoActual].posiciones||[]}
+function mapa(){
+  var cont=$("mapa"),W=cont.clientWidth,H=cont.clientHeight,P=posicionesActuales().filter(function(p){return p.peso>0}).sort(function(a,b){return b.peso-a.peso});
+  if(!W||!P.length)return;
+  var tot=P.reduce(function(a,p){return a+p.peso},0),vivos={};
+  squarify(P.map(function(p){return {it:p,a:p.peso/tot*W*H}}),0,0,W,H).forEach(function(r,i){
+    var p=r.it,el=baldosas[p.id];
+    if(!el){el=document.createElement("button");el.type="button";el.className="baldosa";el.addEventListener("click",function(){elegida=p.id;ficha();mapa()});cont.appendChild(el);baldosas[p.id]=el}
+    vivos[p.id]=1;
+    var color=modoMapa==="clase"?COLOR[p.clase]:(p.sin_precio?"#BDB6A6":colorRet(p.retorno)),cabeId=r.h>24&&r.w-16>=p.id.length*(W<560?8.6:10.5),conTexto=cabeId&&r.h>50&&r.w>74,completo=conTexto&&r.w>128&&modoMapa==="retorno",mini=!cabeId&&r.h>15&&r.w-8>=p.id.length*6.6;
+    el.style.left=r.x+"px";el.style.top=r.y+"px";el.style.width=r.w+"px";el.style.height=r.h+"px";el.style.background=color;el.style.color=tintaSobre(color);el.style.setProperty("--d",(i*28)+"ms");
+    el.innerHTML=cabeId?'<b>'+esc(p.id)+'</b>'+(conTexto?'<span>'+pct(p.peso,1)+(completo?' · '+ret(p,1):'')+'</span>':''):(mini?'<b class="mini">'+esc(p.id)+'</b>':'');
+    var txt=p.nombre+": "+pct(p.peso,1)+" de la cartera"+(sinDatos?"":", retorno del tramo "+ret(p,1));
+    el.setAttribute("aria-label",txt);el.title=txt;el.setAttribute("aria-pressed",p.id===elegida?"true":"false");
+  });
+  Object.keys(baldosas).forEach(function(id){if(!vivos[id]){cont.removeChild(baldosas[id]);delete baldosas[id]}});
+  $("mapa-ley").innerHTML=modoMapa==="retorno"?'<span>≤ −8%</span><i class="ley-grad"></i><span>≥ +8%</span><span class="ley-nota">Tamaño: % de la cartera. Color: retorno desde el '+corta(D.fotos[fotoActual].fecha)+'. Tocá una posición para ver el detalle.</span>':D.fotos[fotoActual].clases.map(function(k){return '<span class="ley-clase"><i style="background:'+COLOR[k.nombre]+'"></i>'+esc(k.nombre)+'</span>'}).join("");
+}
+function fichaTesis(p){
+  var x=(D.fichas||[]).filter(function(f){return f.id===p.id})[0];
+  if(!x)return "";
+  return '<div class="ficha-tesis"><p><b>'+esc(x.postura)+'.</b> '+esc(x.tesis)+'</p><p class="inv"><b>Invalida:</b> '+esc(x.invalida)+'</p>'+(x.alerta?'<p class="alerta"><b>Alerta:</b> '+esc(x.alerta)+'</p>':'')+'</div>';
+}
+function ficha(){
+  var P=posicionesActuales(),p=P.filter(function(x){return x.id===elegida})[0];
+  if(!p){p=P.slice().sort(function(a,b){return b.peso-a.peso})[0];elegida=p?p.id:null}
+  if(!p)return;
+  $("ficha-pos").innerHTML='<div><small>'+esc(p.clase)+' · '+esc(p.region)+'</small><h4>'+esc(p.nombre)+'</h4></div><div><small>% de la cartera</small><strong>'+pct(p.peso,1)+'</strong></div>'+(sinDatos?'':'<div><small>Retorno del tramo</small><strong>'+ret(p,2)+'</strong></div><div><small>Aporte</small><strong>'+aporte(p)+'</strong></div>')+fichaTesis(p);
+}
+function tablaPos(){
+  var P=posicionesActuales().slice(),o=ordenPos;
+  P.sort(function(a,b){var x=a[o.k],y=b[o.k];return (typeof x==="string"?x.localeCompare(y):x-y)*o.d});
+  var cab=[["nombre","Posición"],["sector","Sector"],["region","Región"],["peso","% de la cartera"]];if(!sinDatos)cab.push(["retorno","Retorno"],["aporte","Aporte"]);
+  $("tabla-pos").innerHTML='<table><thead><tr>'+cab.map(function(c){return '<th scope="col" aria-sort="'+(o.k===c[0]?(o.d>0?"ascending":"descending"):"none")+'"><button type="button" class="orden" data-k="'+c[0]+'">'+c[1]+'</button></th>'}).join("")+'</tr></thead><tbody>'+P.map(function(p){return '<tr><td>'+esc(p.nombre)+' <span class="tic">'+esc(p.id)+'</span></td><td>'+esc(p.sector)+'</td><td>'+esc(p.region)+'</td><td>'+pct(p.peso,1)+'</td>'+(sinDatos?'':'<td>'+ret(p,2)+'</td><td>'+aporte(p)+'</td>')+'</tr>'}).join("")+'</tbody></table>';
+}
+function aportesVista(){
+  var A=D.aportes.filter(function(a){return Math.abs(a.aporte)>=5e-5}).sort(function(a,b){return b.aporte-a.aporte});
+  if(!A.length){$("caja-aportes").hidden=true;return}
+  var suben=A.filter(function(a){return a.aporte>0}).slice(0,5),bajan=A.filter(function(a){return a.aporte<0}).slice(-5),L=suben.concat(bajan),mx=Math.max.apply(null,L.map(function(a){return Math.abs(a.aporte)}));
+  $("aportes").innerHTML=L.map(function(a){var w=(Math.abs(a.aporte)/mx*50).toFixed(1);return '<li><span>'+esc(a.nombre)+'</span><span class="ap-pista"><i class="'+(a.aporte<0?"neg":"pos")+'" style="width:'+w+'%"></i></span><b>'+pp(a.aporte)+'</b></li>'}).join("");
+  var suma=L.reduce(function(s,a){return s+a.aporte},0);
+  $("aportes").innerHTML+='<li class="ap-resto"><span>Resto de las posiciones</span><span></span><b>'+pp(D.rendimiento-suma)+'</b></li><li class="ap-total"><span>Total</span><span></span><b>'+pp(D.rendimiento)+'</b></li>';
+}
+function tira(){
+  var P=posicionesActuales().filter(function(p){return p.clase!=="Liquidez"}).sort(function(a,b){return b.peso-a.peso});
+  if(!P.length){$("tira").hidden=true;return}
+  var con=!sinDatos,uno=P.map(function(p){return '<span><b>'+esc(p.id)+'</b> '+pct(p.peso,1)+(con?' <i class="'+(p.sin_precio?'n':p.retorno<0?"neg":"pos")+'">'+(p.sin_precio||!p.retorno?"":p.retorno<0?"▼":"▲")+'</i> '+ret(p,1):'')+'</span>'}).join("");
+  $("tira-pista").innerHTML=uno+uno;
+}
+
+function tablaTramos(){
+  var T=D.tramos,e=$("tramos");
+  if(!T.length){e.innerHTML='<p class="subt">Rendimiento por tramo</p><p class="vacio">Todavía no hay tramos. El primero se mide con el corte del '+corta(D.proximo_corte)+'.</p>';return}
+  var f=T.slice().reverse().map(function(t){return '<tr><td>'+corta(t.desde)+' a '+corta(t.hasta)+(t.cerrado?'':' (en curso)')+'</td><td>'+pct(t.cartera,2,true)+'</td><td>'+pct(t.benchmark,2,true)+'</td><td>'+pp(t.diferencia)+'</td></tr>'}).join("");
+  e.innerHTML='<table><caption>Rendimiento por tramo</caption><thead><tr><th scope="col">Tramo</th><th scope="col">Cartera</th><th scope="col">S&amp;P 500</th><th scope="col">Diferencia</th></tr></thead><tbody>'+f+'</tbody></table>';
+}
+
+function dona(cl){
+  var r=70,c=90,sw=30,L=2*Math.PI*r,gap=2.5,ac=0,o='<svg viewBox="0 0 180 180" role="img" aria-label="Composición por clase de activo"><g transform="rotate(-90 90 90)">';
+  cl.forEach(function(k){var largo=L*k.peso;o+='<circle cx="'+c+'" cy="'+c+'" r="'+r+'" fill="none" stroke="'+COLOR[k.nombre]+'" stroke-width="'+sw+'" stroke-dasharray="'+Math.max(largo-gap,.5)+' '+(L-Math.max(largo-gap,.5))+'" stroke-dashoffset="'+(-ac)+'"><title>'+esc(k.nombre)+' '+pct(k.peso,1)+'</title></circle>';ac+=largo});
+  return o+'</g></svg>';
+}
+function barras(id,filas,mx){var lista=$(id),viejas=lista.children,mismos=viejas.length===filas.length&&filas.every(function(f,i){return viejas[i].firstChild.textContent===f.nombre});
+  if(mismos){filas.forEach(function(f,i){viejas[i].querySelector(".pista").style.width=(f.peso/mx*100).toFixed(1)+"%";viejas[i].querySelector("b").textContent=pct(f.peso,1)});return}
+  $(id).innerHTML=filas.map(function(f){return '<li><span>'+esc(f.nombre)+'</span><span class="va"><span class="pista" style="width:'+(f.peso/mx*100).toFixed(1)+'%"></span></span><b>'+pct(f.peso,1)+'</b></li>'}).join("")}
+function foto(i){
+  var F=D.fotos[i];fotoActual=i;
+  if(F.posiciones){
+    ficha();mapa();tablaPos();
+    var ca=[];if(F.altas&&F.altas.length)ca.push("Entraron: "+F.altas.join(", ")+".");if(F.bajas&&F.bajas.length)ca.push("Salieron: "+F.bajas.join(", ")+".");
+    $("cambios").textContent=ca.join(" ")||(i?"Sin altas ni bajas en este corte.":"");
+  }else{$("bloque-mapa").hidden=true}
+  var previa=$("dona").querySelectorAll("circle");
+  if(previa.length===F.clases.length){
+    var L=2*Math.PI*70,ac=0;
+    F.clases.forEach(function(k,j){var largo=Math.max(L*k.peso-2.5,.5);previa[j].setAttribute("stroke-dasharray",largo+" "+(L-largo));previa[j].setAttribute("stroke-dashoffset",-ac);ac+=L*k.peso;previa[j].querySelector("title").textContent=k.nombre+" "+pct(k.peso,1)});
+  }else{$("dona").innerHTML=dona(F.clases)}
+  $("clases").innerHTML=F.clases.map(function(k){return '<li><i style="background:'+COLOR[k.nombre]+'"></i><span>'+esc(k.nombre)+'</span><span>'+pct(k.peso,1)+'</span></li>'}).join("");
+  $("t-pos").textContent=F.n_posiciones;$("t-top").textContent=pct(F.top5,1);$("t-rf").textContent=pct(F.renta_fija+F.liquidez,1);
+  var sec=F.sectores.filter(function(s){return ["Liquidez","Bitcoin","Renta fija","Metales"].indexOf(s.nombre)<0}),reg=F.regiones_rv||F.regiones.filter(function(s){return s.nombre!=="Liquidez"}),mxB=Math.max.apply(null,sec.concat(reg).map(function(f){return f.peso}));
+  barras("sectores",sec,mxB);barras("regiones",reg,mxB);
+  $("pie-foto").textContent="Foto al "+corta(F.fecha)+". Los CEDEARs se consolidan con su subyacente.";
+  [].filter.call($("pastillas").children,function(b){return !b.classList.contains("reloj")}).forEach(function(b,j){b.setAttribute("aria-pressed",j===i?"true":"false")});
+}
+function pastillas(){
+  var e=$("pastillas");
+  if(D.fotos.length<2){e.style.display="none";return}
+  var reloj=null,play=document.createElement("button");play.type="button";play.className="reloj";
+  var iconos={v:'<svg viewBox="0 0 10 10"><path d="M1 0l9 5-9 5z"/></svg>',p:'<svg viewBox="0 0 10 10"><path d="M1 0h3v10H1zM6 0h3v10H6z"/></svg>'};
+  function etiqueta(on){play.innerHTML=(on?iconos.p+"Pausar":iconos.v+"Reproducir")}
+  etiqueta(false);
+  function parar(){clearInterval(reloj);reloj=null;etiqueta(false)}
+  play.addEventListener("click",function(){
+    if(reloj){parar();return}
+    var i=0;foto(i);etiqueta(true);
+    reloj=setInterval(function(){i+=1;if(i>=D.fotos.length){parar();return}foto(i)},1300);
+  });
+  e.appendChild(play);
+  D.fotos.forEach(function(F,i){var b=document.createElement("button");b.type="button";b.textContent=corta(F.fecha);b.addEventListener("click",function(){parar();foto(i)});e.appendChild(b)});
+}
+function ediciones(){
+  var prox='<div class="edicion proxima"><div class="n">Reporte<b>N.º '+D.ediciones.length+'</b></div><div><h3>Próximo corte</h3><time datetime="'+D.proximo_corte+'">'+larga(D.proximo_corte)+'</time><p>Se archiva acá, con el comentario del período.</p></div></div>';
+  $("ediciones").innerHTML=prox+D.ediciones.slice().reverse().map(function(E){return '<a class="edicion" href="'+esc(E.archivo)+'"><div class="n">Reporte<b>N.º '+E.numero+'</b></div><div><h3>'+esc(E.titulo)+'</h3><time datetime="'+E.fecha+'">'+larga(E.fecha)+'</time><p>'+esc(E.resumen)+'</p></div></a>'}).join("");
+}
+/* Cómo decido: un panel fijo que cambia con cada paso. Sin tesis, la sección no existe. */
+function vistasTesis(T){
+  function fila(n,w,dest,v){return '<div class="v-fila"><span>'+esc(n)+'</span><span class="v-pista"><i class="'+(dest?"dest":"")+'" style="width:'+w.toFixed(1)+'%"></i></span><b>'+v+'</b></div>'}
+  var mxS=Math.max.apply(null,T.segmentos.map(function(s){return s.parte})),mxE=Math.max.apply(null,T.escenarios.map(function(e){return e.valor}));
+  var a='<p class="v-et">Ganancia operativa · 3T 2026</p><p class="v-grande">'+pct(T.nucleo,0)+'</p><p class="v-nota">sale de Ratings e Indices</p><div class="v-filas">'+T.segmentos.map(function(s){return fila(s.nombre,s.parte/mxS*100,s.nucleo,pct(s.parte,1))}).join("")+'</div>';
+  var b='<p class="v-et">Valor por acción</p><p class="v-grande">'+num(T.vf,1)+'</p><p class="v-nota">Escenarios a octubre de 2027</p><div class="v-filas">'+T.escenarios.slice().reverse().map(function(e){return fila(e.nombre+" · "+pct(e.prob,0),e.valor/mxE*100,false,num(e.valor,1))}).join("")+'</div><div class="v-cuenta"><span>Valor a 12 meses, con dividendo</span><b>'+num(T.v12,1)+'</b></div><div class="v-cuenta" style="margin-top:8px"><span>Descontado al '+pct(T.ke,2)+'</span><b>'+num(T.vf,1)+'</b></div>';
+  var c='<p class="v-et">Escritas antes del balance</p><p class="v-grande">'+T.condiciones_ok+' de '+T.condiciones.length+'</p><div style="margin-top:auto">'+T.condiciones.map(function(k){var e=k.estado.split(":")[0],s=e==="Cumplida"?["ok","✓"]:e==="Alerta"?["","!"]:["","?"];return '<div class="v-cond"><span class="v-est '+s[0]+'" aria-hidden="true">'+s[1]+'</span><span>'+esc(k.texto)+'<small>'+esc(k.estado)+'</small></span></div>'}).join("")+'</div>';
+  function regla(){var W=470,y=66,lo=330,hi=540,px=function(v){return 12+(W-24)*(v-lo)/(hi-lo)},o='<svg viewBox="0 0 '+W+' 118" aria-hidden="true"><line x1="0" x2="'+W+'" y1="'+y+'" y2="'+y+'" stroke="rgba(255,255,255,.25)" stroke-width="2"/>';
+    function mk(v,n,color,arriba,ancla){var yt=arriba?y-27:y+27,yn=arriba?y-13:y+41;o+='<circle cx="'+px(v)+'" cy="'+y+'" r="5" fill="'+color+'" stroke="#0C2C23" stroke-width="2"/><text x="'+px(v)+'" y="'+yt+'" text-anchor="'+ancla+'" font-size="14" fill="#FBF7EE">'+num(v,1)+'</text><text x="'+px(v)+'" y="'+yn+'" text-anchor="'+ancla+'" font-size="11" fill="#B9C9BC">'+n+'</text>'}
+    mk(T.compra_grande,"Compra fuerte","#D9B26A",true,"middle");mk(T.compra,"Compra","#D9B26A",false,"middle");mk(T.vf,"Valor","#FBF7EE",true,"middle");mk(T.recorte_vigente,"Recorte","#EDA08A",true,"middle");
+    o+='<line x1="'+px(T.precio)+'" x2="'+px(T.precio)+'" y1="'+(y-12)+'" y2="'+(y+12)+'" stroke="#FBF7EE" stroke-width="2.4"/><text x="'+px(T.precio)+'" y="'+(y+27)+'" text-anchor="end" font-size="14" fill="#FBF7EE">'+num(T.precio,1)+'</text><text x="'+px(T.precio)+'" y="'+(y+41)+'" text-anchor="end" font-size="11" fill="#B9C9BC">Precio</text></svg>';return o}
+  var d='<p class="v-et">Margen de seguridad</p><p class="v-grande">'+pct(T.margen,1)+'</p><p class="v-nota">Precio del '+corta(T.fecha_precio)+' contra el valor por acción</p>'+regla();
+  function precio(){var P=T.recorrido,W=470,H=214,m=[46,84,12,24],vals=P.map(function(p){return p[1]}).concat([T.recorte]),lo=Math.floor(Math.min.apply(null,vals)/20)*20,hi=Math.ceil(Math.max.apply(null,vals)/20)*20,px=function(i){return m[0]+(W-m[0]-m[1])*i/(P.length-1)},py=function(v){return m[2]+(H-m[2]-m[3])*(1-(v-lo)/(hi-lo))},o='<svg viewBox="0 0 '+W+' '+H+'" aria-hidden="true">',v,im=0;
+    for(v=lo;v<=hi;v+=20){o+='<line x1="'+m[0]+'" x2="'+(W-m[1])+'" y1="'+py(v)+'" y2="'+py(v)+'" stroke="rgba(255,255,255,.12)"/><text x="'+(m[0]-8)+'" y="'+(py(v)+4)+'" text-anchor="end" font-size="11" fill="#B9C9BC">'+num(v,0)+'</text>'}
+    P.forEach(function(p,i){if(p[1]>P[im][1])im=i});
+    o+='<line x1="'+m[0]+'" x2="'+(W-m[1])+'" y1="'+py(T.recorte)+'" y2="'+py(T.recorte)+'" stroke="#EDA08A" stroke-width="1.5"/><text x="'+(W-m[1]+7)+'" y="'+(py(T.recorte)+4)+'" font-size="11" fill="#EDA08A">Zona previa</text>';
+    o+='<path d="'+P.map(function(p,i){return (i?"L":"M")+px(i).toFixed(1)+" "+py(p[1]).toFixed(1)}).join(" ")+'" fill="none" stroke="#D9B26A" stroke-width="2.2" stroke-linejoin="round"/>';
+    o+='<circle cx="'+px(im)+'" cy="'+py(P[im][1])+'" r="4.5" fill="#FBF7EE"/><text x="'+px(im)+'" y="'+(py(P[im][1])-10)+'" text-anchor="end" font-size="12" fill="#FBF7EE">'+num(P[im][1],2)+'</text>';
+    o+='<text x="'+m[0]+'" y="'+(H-5)+'" font-size="11" fill="#B9C9BC">'+corta(P[0][0]).slice(0,5)+'</text><text x="'+(W-m[1])+'" y="'+(H-5)+'" text-anchor="end" font-size="11" fill="#B9C9BC">'+corta(P[P.length-1][0]).slice(0,5)+'</text></svg>';return o}
+  var e='<p class="v-et">Cierres diarios en dólares</p><p class="v-nota" style="margin:10px 0 6px">La zona de entonces se superó sin recortar.</p>'+precio();
+  return [a,b,c,d,e];
+}
+function decido(){
+  var T=D.tesis;
+  if(!T){$("decido").hidden=true;var l=$("nav-decido");l.parentNode.removeChild(l);return}
+  $("decido-bajada").textContent="Cinco pasos con "+T.empresa+", una posición real de la cartera. Es un registro personal, no una recomendación.";
+  var V=vistasTesis(T);
+  $("visor").innerHTML=V.map(function(h,i){return '<div class="vista'+(i?"":" activa")+'">'+h+'</div>'}).join("");
+  $("pasos").innerHTML=T.pasos.map(function(p,i){return '<li class="paso'+(i?"":" activo")+'"><p class="paso-et">'+(i+1)+'. '+esc(p.etapa)+'</p><h3>'+esc(p.titulo)+'</h3><p class="txt">'+esc(p.texto)+'</p><div class="paso-visual" aria-hidden="true"><div class="vista activa">'+V[i]+'</div></div></li>'}).join("");
+  $("invalida").innerHTML='<h3>Qué invalidaría la tesis</h3><ul>'+T.invalidacion.map(function(x){return '<li>'+esc(x)+'</li>'}).join("")+'</ul>';
+  $("otras").innerHTML=T.decisiones.map(function(k){return '<article class="otra"><h4>'+esc(k.activo)+'</h4><p>'+esc(k.hecho)+'</p><p class="despues">'+esc(k.resultado)+'</p></article>'}).join("");
+  var F=D.fichas||[];
+  if(F.length){
+    var nAl=F.filter(function(x){return x.alerta}).length;
+    $("fichas-resumen").textContent=F.length+" posiciones, de mayor a menor peso. "+nAl+" con alerta: una regla tocada o algo por resolver.";
+    $("fichas").innerHTML=F.map(function(x){
+      var v=x.valor?'<span>Valor <b>'+num(x.valor,x.valor<1000?1:0)+'</b></span><span>Precio <b>'+num(x.precio,x.precio<1000?1:0)+'</b></span><span>Margen <b>'+pct(x.margen,1)+'</b></span>':'<span>Sin valor por flujos</span>';
+      return '<article class="tesis-f"><header><h4>'+esc(x.nombre)+'<small>'+esc(x.id)+'</small></h4><span class="peso">'+pct(x.peso,1)+'</span></header><span class="postura">'+esc(x.postura)+'</span><p>'+esc(x.tesis)+'</p><p class="inv"><b>Invalida:</b> '+esc(x.invalida)+'</p>'+(x.alerta?'<p class="alerta"><b>Alerta:</b> '+esc(x.alerta)+'</p>':'')+'<div class="val">'+v+'<span>Nota '+corta(x.fecha)+'</span></div></article>'}).join("");
+  }
+  $("roles").innerHTML='<table><thead><tr><th scope="col">Activo</th><th scope="col" style="text-align:left">Rol</th><th scope="col" style="text-align:left">Cómo se juzga</th><th scope="col">Peso</th></tr></thead><tbody>'+D.roles.map(function(r){return '<tr><td>'+esc(r.clase)+'</td><td style="text-align:left">'+esc(r.papel)+'</td><td style="text-align:left">'+esc(r.juicio)+'</td><td>'+pct(r.peso,1)+'</td></tr>'}).join("")+'</tbody></table>';
+  if(!("IntersectionObserver" in window))return;
+  document.documentElement.classList.add("con-pasos");
+  var lp=$("pasos").children,lv=$("visor").children;
+  function activar(n){[].forEach.call(lp,function(x,j){x.classList.toggle("activo",j===n)});[].forEach.call(lv,function(x,j){x.classList.toggle("activa",j===n)})}
+  var ob=new IntersectionObserver(function(ent){ent.forEach(function(x){if(x.isIntersecting)activar([].indexOf.call(lp,x.target))})},{rootMargin:"-46% 0px -46% 0px"});
+  [].forEach.call(lp,function(x){ob.observe(x)});
+}
+decido();
+tablaTramos();pastillas();foto(D.fotos.length-1);ediciones();grafico();tira();aportesVista();
+[].forEach.call($("vistas").children,function(b){b.addEventListener("click",function(){modoGraf=b.getAttribute("data-m");[].forEach.call($("vistas").children,function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});grafico();if(!quieto)trazar()})});
+function marcarModos(){[].forEach.call($("modos").children,function(x){x.setAttribute("aria-pressed",x.getAttribute("data-m")===modoMapa?"true":"false")})}
+[].forEach.call($("modos").children,function(b){b.addEventListener("click",function(){modoMapa=b.getAttribute("data-m");marcarModos();mapa()})});
+marcarModos();
+$("tabla-pos").addEventListener("click",function(e){var k=e.target.getAttribute&&e.target.getAttribute("data-k");if(!k)return;ordenPos={k:k,d:ordenPos.k===k?-ordenPos.d:(k==="peso"||k==="retorno"||k==="aporte"?-1:1)};tablaPos()});
+var t,anchoPrev=window.innerWidth;window.addEventListener("resize",function(){if(window.innerWidth===anchoPrev)return;anchoPrev=window.innerWidth;clearTimeout(t);t=setTimeout(function(){grafico();if(D.fotos[fotoActual].posiciones)mapa()},150)});
+
+/* Movimiento: se apaga entero si el visitante pidió reducirlo. */
+var quieto=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+function trazar(){
+  [].forEach.call(document.querySelectorAll("#graf path"),function(p,i){
+    var L=p.getTotalLength();p.style.strokeDasharray=L;p.style.strokeDashoffset=L;p.getBoundingClientRect();
+    p.style.transition="stroke-dashoffset 1.5s cubic-bezier(.3,.6,.2,1) "+(i*140)+"ms";p.style.strokeDashoffset=0;
+    p.addEventListener("transitionend",function(){p.style.strokeDasharray="";p.style.strokeDashoffset="";p.style.transition=""},{once:true});
+  });
+}
+function contar(el,desde){
+  var fin=el.textContent,m=fin.match(/^([+−]?)(\d+),(\d+)(.*)$/);if(!m)return;
+  var v=Number(m[2]+"."+m[3]),dec=m[3].length,t0=null,d=desde||0;
+  function paso(ts){t0=t0||ts;var u=Math.min((ts-t0)/1300,1),e=1-Math.pow(1-u,3);el.textContent=m[1]+num(d+(v-d)*e,dec)+m[4];if(u<1)requestAnimationFrame(paso);else el.textContent=fin}
+  requestAnimationFrame(paso);
+}
+if(!quieto&&"IntersectionObserver" in window){
+  document.documentElement.classList.add("js");
+  var revelar=document.querySelectorAll(".cabeza,.ficha,.reglas li,.tablero-graf,.aviso-corto,#rendimiento .lamina,details,.composicion,.edicion,.carta,.contacto,#proyecto .dos>div");
+  [].forEach.call(revelar,function(e,i){e.classList.add("revela");e.style.setProperty("--espera",(i%3)*70+"ms")});
+  var io=new IntersectionObserver(function(ent){ent.forEach(function(x){if(!x.isIntersecting)return;x.target.classList.add("visto");io.unobserve(x.target)})},{threshold:.12,rootMargin:"0px 0px -6% 0px"});
+  [].forEach.call(revelar,function(e){io.observe(e)});
+  var graf=new IntersectionObserver(function(ent){if(ent[0].isIntersecting){trazar();[].forEach.call(document.querySelectorAll(".cifra strong"),contar);graf.disconnect()}},{threshold:.35});
+  graf.observe($("graf"));
+  if(D.fotos[fotoActual].posiciones){var mp=$("mapa");mp.classList.add("sin-ver");var im=new IntersectionObserver(function(ent){if(ent[0].isIntersecting){mp.classList.remove("sin-ver");im.disconnect()}},{threshold:.25});im.observe(mp)}
+  var comp=document.querySelector(".composicion");comp.classList.add("sin-ver");
+  var ci=new IntersectionObserver(function(ent){if(ent[0].isIntersecting){comp.classList.remove("sin-ver");ci.disconnect()}},{threshold:.2});
+  ci.observe(comp);
+  contar($("k-nivel"),100);
+}
+/* Barra de progreso y sección activa. */
+var prog=$("progreso"),enlaces=[].slice.call(document.querySelectorAll(".menu a"));
+function alScroll(){
+  var h=document.documentElement,y=h.scrollTop||document.body.scrollTop,tot=h.scrollHeight-h.clientHeight;
+  prog.style.transform="scaleX("+(tot>0?y/tot:0)+")";
+  var act=null;enlaces.forEach(function(a){var s=document.querySelector(a.getAttribute("href"));if(s&&s.getBoundingClientRect().top<160)act=a});
+  enlaces.forEach(function(a){a.classList.toggle("activo",a===act)});
+}
+window.addEventListener("scroll",alScroll,{passive:true});alScroll();
+window.addEventListener("beforeprint",function(){[].forEach.call(document.querySelectorAll(".revela"),function(e){e.classList.add("visto")});[].forEach.call(document.querySelectorAll(".sin-ver"),function(e){e.classList.remove("sin-ver")});[].forEach.call(document.querySelectorAll("details"),function(e){e.open=true})});
+
+/* Sello: dos rosetas de guilloche que giran en sentido contrario y generan el muaré del papel de valores. */
+function roseta(id,k1,k2,color,lineas){
+  var cv=$(id),ctx=cv.getContext&&cv.getContext("2d");if(!ctx)return;
+  var s=cv.clientWidth,dpr=Math.min(window.devicePixelRatio||1,2),R=s/2-2,TAU=Math.PI*2;
+  if(!s)return;
+  cv.width=s*dpr;cv.height=s*dpr;ctx.setTransform(dpr,0,0,dpr,s/2*dpr,s/2*dpr);ctx.strokeStyle=color;ctx.lineWidth=.6;
+  for(var i=0;i<lineas;i++){
+    var f=i/lineas*TAU;ctx.beginPath();
+    for(var p=0;p<=720;p++){var a=p/720*TAU,r=R*(.8+.115*Math.sin(k1*a+f)+.075*Math.sin(k2*a-2*f));if(p===0)ctx.moveTo(r*Math.cos(a),r*Math.sin(a));else ctx.lineTo(r*Math.cos(a),r*Math.sin(a))}
+    ctx.closePath();ctx.stroke();
+  }
+}
+function rosetas(){roseta("roseta-a",14,5,"rgba(217,178,106,.34)",44);roseta("roseta-b",9,4,"rgba(170,210,185,.17)",30)}
+rosetas();window.addEventListener("resize",rosetas);
+
+/* Sello: cinta de líneas entrelazadas, como el grabado de un billete. El scroll la empuja. */
+(function(){
+  var cv=$("cinta"),ctx=cv.getContext&&cv.getContext("2d");if(!ctx)return;
+  var fase=0,empuje=0,ultimoY=window.scrollY,visible=true,N=26,w,h,dpr;
+  /* La amplitud sale de la volatilidad real de la cartera: más movimiento en el mercado, más onda. */
+  var rets=D.serie.slice(1).map(function(p,i){return p.cartera/D.serie[i].cartera-1});
+  var media=rets.reduce(function(a,b){return a+b},0)/(rets.length||1);
+  var vol=Math.sqrt(rets.reduce(function(a,b){return a+(b-media)*(b-media)},0)/(rets.length||1));
+  var amplitud=.6+Math.min(.4,vol*16);
+  function medir(){dpr=Math.min(window.devicePixelRatio||1,2);w=cv.clientWidth;h=cv.clientHeight;cv.width=w*dpr;cv.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
+  function dibujar(){
+    ctx.clearRect(0,0,w,h);ctx.lineWidth=.7;
+    var paso=Math.max(4,w/260),TAU=Math.PI*2;
+    for(var i=0;i<N;i++){
+      var f=i/N*TAU;ctx.beginPath();
+      for(var x=0;x<=w+paso;x+=paso){
+        var u=x/w,v=.62*Math.sin(u*TAU*2.5+f+fase)*Math.sin(u*TAU*.75+f/2-fase*.4)+.3*Math.sin(u*TAU*5-f+fase*.6),y=h/2+(h/2-2)*amplitud*v/.92;
+        if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+      }
+      ctx.strokeStyle="rgba(217,178,106,"+(.05+.09*Math.abs(Math.sin(f+fase)))+")";ctx.stroke();
+    }
+  }
+  medir();dibujar();
+  window.addEventListener("resize",function(){medir();dibujar()});
+  if(quieto||!("IntersectionObserver" in window))return;
+  new IntersectionObserver(function(e){visible=e[0].isIntersecting;if(visible)bucle()}).observe(cv);
+  window.addEventListener("scroll",function(){empuje+=(window.scrollY-ultimoY)*.0009;ultimoY=window.scrollY},{passive:true});
+  var corriendo=false;
+  function bucle(){if(corriendo)return;corriendo=true;requestAnimationFrame(cuadro)}
+  function cuadro(){if(!visible||document.hidden){corriendo=false;return}fase+=.0035+empuje*.12;empuje*=.88;dibujar();requestAnimationFrame(cuadro)}
+  document.addEventListener("visibilitychange",function(){if(!document.hidden&&visible)bucle()});
+  bucle();
+})();
+})();
+</script>
+</body>
+</html>
